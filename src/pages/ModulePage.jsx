@@ -1,12 +1,18 @@
+import { Suspense } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { Loader2, Construction } from 'lucide-react'
 import { moduleById } from '../data/modulesList'
+import { moduleComponents } from '../modules/registry'
+import { ModuleLayout } from '../components/learning/ModuleLayout'
 import { PageTransition } from '../components/layout/PageTransition'
-import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 
-// Renders a single module by its slug. The rich, per-module learning layout
-// (hook → explanation → playground → visualizer → challenge → quiz) is added
-// in the next milestone once those components exist.
+/*
+ * ModulePage — resolves :slug to the right lazy-loaded module body and renders
+ * it inside the shared ModuleLayout. Unknown slugs → not found; known-but-not-
+ * yet-authored slugs → a "coming soon" panel (still inside the layout, so
+ * navigation and the mark-complete chrome remain consistent).
+ */
 export default function ModulePage() {
   const { slug } = useParams()
   const meta = moduleById[slug]
@@ -14,7 +20,7 @@ export default function ModulePage() {
   if (!meta) {
     return (
       <PageTransition className="py-24 text-center">
-        <p className="text-slate-400">Module “{slug}” not found.</p>
+        <p className="text-slate-400">Module “{slug}” doesn't exist.</p>
         <Link to="/" className="mt-4 inline-block">
           <Button>Back home</Button>
         </Link>
@@ -22,14 +28,40 @@ export default function ModulePage() {
     )
   }
 
+  const Body = moduleComponents[slug]
+
   return (
-    <PageTransition className="space-y-4">
-      <p className="font-mono text-sm text-slate-500">Module {meta.num}</p>
-      <h1 className="text-3xl font-bold">{meta.title}</h1>
-      <p className="text-slate-400">{meta.short}</p>
-      <Card className="grid h-64 place-items-center text-slate-500">
-        Module content coming soon
-      </Card>
-    </PageTransition>
+    <ModuleLayout meta={meta}>
+      {Body ? (
+        <Suspense fallback={<ModuleLoading />}>
+          <Body />
+        </Suspense>
+      ) : (
+        <ComingSoon />
+      )}
+    </ModuleLayout>
+  )
+}
+
+function ModuleLoading() {
+  return (
+    <div className="grid h-48 place-items-center text-slate-500">
+      <Loader2 className="animate-spin text-accent" size={28} />
+    </div>
+  )
+}
+
+function ComingSoon() {
+  return (
+    <div className="rounded-xl border border-dashed border-white/15 bg-surface-900 p-10 text-center">
+      <Construction className="mx-auto mb-3 text-flash" size={28} />
+      <p className="font-semibold text-slate-200">This module is being authored.</p>
+      <p className="mt-1 text-sm text-slate-400">
+        Check back soon — or jump into the free sandbox to keep practicing.
+      </p>
+      <Link to="/sandbox" className="mt-4 inline-block">
+        <Button variant="secondary">Open sandbox</Button>
+      </Link>
+    </div>
   )
 }
