@@ -23,4 +23,9 @@ export const moduleComponents = {
   usecontext: lazy(() => import('./11-usecontext/content.jsx')),
   usereducer: lazy(() => import('./12-usereducer/content.jsx')),
   'custom-hooks': lazy(() => import('./13-custom-hooks/content.jsx')),
+  optimization: lazy(() => import('./14-optimization/content.jsx')),
+  'error-boundaries': lazy(() => import('./15-error-boundaries/content.jsx')),
+  composition: lazy(() => import('./16-composition/content.jsx')),
+  'react-router': lazy(() => import('./17-react-router/content.jsx')),
+  'final-project': lazy(() => import('./18-final-project/content.jsx')),
 }
