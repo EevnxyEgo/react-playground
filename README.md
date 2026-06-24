@@ -1,70 +1,132 @@
-# Getting Started with Create React App
+# ⚛️ React Playground
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An interactive, **learn-by-doing** web app for mastering React fundamentals —
+from your very first component all the way to advanced hooks. Instead of just
+reading theory, you edit live code, *watch* components re-render, take quick
+quizzes, and earn XP as you go.
 
-## Available Scripts
+> Built as a real, incrementally-developed project. The app's own source code
+> doubles as a worked example of the concepts it teaches (its global state is a
+> hand-rolled `useReducer` + Context store; the render-flash effect is a custom
+> hook).
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **19 hands-on modules** — Components, JSX, Props, State, Events, Conditional
+  Rendering, Lists & Keys, Forms, `useEffect`, `useRef`, `useContext`,
+  `useReducer`, Custom Hooks, Optimization, Error Boundaries, Composition,
+  React Router, and a final **Todo App** capstone.
+- **Live playgrounds** — every module embeds an editable code editor + instant
+  preview (powered by Sandpack), with a collapsible **Show Solution**.
+- **Render Visualizer** — a reusable `useRenderFlash()` hook makes components
+  flash amber *exactly* when React re-renders them, so re-render behavior is
+  visible rather than abstract (used heavily in Modules 1, 4, 9, 10 & 14).
+- **Comparison Mode** — function vs class side-by-side (Modules 1, 4, 9, plus
+  controlled-vs-uncontrolled and useState-vs-useReducer).
+- **Instant quizzes** — immediate feedback, a confetti burst on correct answers,
+  and explanations when you miss.
+- **Mini State Inspector** — a live JSON view of demo state next to playgrounds.
+- **Progress system** — XP, levels, achievement badges and a global progress
+  bar, all **persisted to `localStorage`**.
+- **Free Sandbox** — a blank editor for open experimentation.
+- **Dark / light theme** (dark by default), **module search**, smooth
+  **framer-motion** page transitions, and a **responsive** layout (the sidebar
+  becomes a drawer on mobile).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🧱 Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Concern            | Choice                                            |
+| ------------------ | ------------------------------------------------- |
+| Build tool         | **Vite**                                          |
+| Framework          | **React 18** (plain JavaScript, no TypeScript)    |
+| Styling            | **Tailwind CSS** (CSS-variable theme tokens)      |
+| Live code editor   | **@codesandbox/sandpack-react**                   |
+| Routing            | **react-router-dom**                              |
+| Animation          | **framer-motion**                                 |
+| Icons              | **lucide-react**                                  |
+| Global state       | **React Context + useReducer** (no external lib)  |
+| Persistence        | **localStorage**                                  |
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+# install dependencies
+npm install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# start the dev server (http://localhost:5173)
+npm run dev
 
-### `npm run eject`
+# production build
+npm run build
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# preview the production build locally
+npm run preview
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+> Requires Node 18+.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 📂 Project Structure
 
-## Learn More
+```
+src/
+  components/
+    layout/      Sidebar, Header, ProgressBar, PageTransition
+    learning/    ModuleLayout, CodePlayground, ComparisonTabs, Quiz,
+                 Challenge, RenderFlashWrapper, StateInspector, Section, …
+    ui/          Button, Card, Badge, Toggle, Tabs
+  context/
+    AppContext.jsx   global state (progress, XP, theme) via useReducer
+  hooks/
+    useRenderFlash.js  the Render Visualizer engine
+    useProgress.js     ergonomic facade over AppContext
+  data/
+    modulesList.js   metadata for routing + sidebar
+    badges.js        achievement definitions
+  modules/
+    00-welcome/ … 18-final-project/   one folder per module (content.jsx)
+    registry.js   lazy-loads each module by slug
+  pages/
+    Home.jsx, ModulePage.jsx, Sandbox.jsx, Progress.jsx, NotFound.jsx
+  lib/
+    cn.js, icons.js
+  App.jsx, main.jsx, index.css
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Each module follows the same **six-layer teaching rhythm**: opening hook →
+short explanation + analogy → live playground → render visualizer → mini
+challenge → instant quiz.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## 🎓 How It's Built
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+This repository was developed incrementally, the way a senior engineer would —
+the Git history reads as a step-by-step build log (scaffold → core building
+blocks → reference modules → remaining modules → platform features → polish).
+Browse `git log` to retrace it.
 
-### Analyzing the Bundle Size
+Highlights of the architecture:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **`AppContext`** is a from-scratch `useReducer` store. XP, level, completion %
+  and earned badges are all *derived* from raw progress, so the numbers can
+  never disagree.
+- **`useRenderFlash`** counts renders in a ref and restarts a CSS keyframe on
+  each commit — a real, reusable hook that powers every visualizer.
+- **Modules are data + lazy components**: `modulesList.js` drives navigation,
+  while `registry.js` code-splits each lesson so you only download what you open.
+- **Theming** uses CSS-variable color tokens (`surface-*`, `content-*`, `line`)
+  that flip between dark and light, wired to Tailwind.
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 📜 License
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Educational project — free to use and learn from.
