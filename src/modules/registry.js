@@ -11,5 +11,7 @@ import { lazy } from 'react'
 export const moduleComponents = {
   welcome: lazy(() => import('./00-welcome/content.jsx')),
   components: lazy(() => import('./01-components/content.jsx')),
+  jsx: lazy(() => import('./02-jsx/content.jsx')),
+  props: lazy(() => import('./03-props/content.jsx')),
   state: lazy(() => import('./04-state/content.jsx')),
 }
