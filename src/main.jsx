@@ -2,14 +2,18 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
+import { AppProvider } from './context/AppContext.jsx'
 import './index.css'
 
-// App entry point. BrowserRouter enables client-side routing between modules.
-// (The global AppProvider is added in a later step once the context exists.)
+// App entry point.
+//   - BrowserRouter → client-side routing between modules
+//   - AppProvider   → our hand-rolled global state (progress, XP, theme)
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <AppProvider>
+        <App />
+      </AppProvider>
     </BrowserRouter>
   </React.StrictMode>,
 )
