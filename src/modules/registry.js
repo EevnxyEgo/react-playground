@@ -20,4 +20,7 @@ export const moduleComponents = {
   forms: lazy(() => import('./08-forms/content.jsx')),
   useeffect: lazy(() => import('./09-useeffect/content.jsx')),
   useref: lazy(() => import('./10-useref/content.jsx')),
+  usecontext: lazy(() => import('./11-usecontext/content.jsx')),
+  usereducer: lazy(() => import('./12-usereducer/content.jsx')),
+  'custom-hooks': lazy(() => import('./13-custom-hooks/content.jsx')),
 }
