@@ -27,10 +27,10 @@ export function Challenge({ task, checklist = [], hint }) {
   }
 
   return (
-    <div className="rounded-xl border border-white/10 bg-surface-900 p-5">
+    <div className="rounded-xl border border-line/10 bg-surface-900 p-5">
       <div className="mb-3 flex items-center gap-2">
         <Target size={18} className="text-accent" />
-        <h3 className="font-semibold text-slate-100">Mini Challenge</h3>
+        <h3 className="font-semibold text-content-strong">Mini Challenge</h3>
         {done && (
           <span className="ml-auto flex items-center gap-1 text-sm text-emerald-400">
             <Trophy size={15} /> Done
@@ -38,7 +38,7 @@ export function Challenge({ task, checklist = [], hint }) {
         )}
       </div>
 
-      <div className="mb-4 text-[15px] text-slate-300">{task}</div>
+      <div className="mb-4 text-[15px] text-content">{task}</div>
 
       {checklist.length > 0 && (
         <ul className="mb-4 space-y-2">
@@ -47,19 +47,19 @@ export function Challenge({ task, checklist = [], hint }) {
               <button
                 type="button"
                 onClick={() => toggle(i)}
-                className="flex w-full items-start gap-2 text-left text-sm text-slate-300 focus-ring rounded"
+                className="flex w-full items-start gap-2 text-left text-sm text-content focus-ring rounded"
               >
                 <span
                   className={cn(
                     'mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded border transition-colors',
                     checked[i]
                       ? 'border-emerald-500 bg-emerald-500/20 text-emerald-400'
-                      : 'border-white/20',
+                      : 'border-line/20',
                   )}
                 >
                   {checked[i] && <Check size={13} />}
                 </span>
-                <span className={cn(checked[i] && 'text-slate-400 line-through')}>{item}</span>
+                <span className={cn(checked[i] && 'text-content-muted line-through')}>{item}</span>
               </button>
             </li>
           ))}
@@ -84,7 +84,7 @@ export function Challenge({ task, checklist = [], hint }) {
       </div>
 
       {showHint && hint && (
-        <div className="mt-3 rounded-lg border border-flash/20 bg-flash/5 p-3 text-sm text-slate-300">
+        <div className="mt-3 rounded-lg border border-flash/20 bg-flash/5 p-3 text-sm text-content">
           {hint}
         </div>
       )}

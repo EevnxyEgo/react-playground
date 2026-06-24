@@ -34,7 +34,7 @@ export function ComparisonTabs({ tabs, defaultValue, note }) {
       </Tabs>
 
       {note && (
-        <div className="flex items-start gap-2 rounded-lg border border-white/10 bg-surface-800/50 p-3 text-sm text-slate-300">
+        <div className="flex items-start gap-2 rounded-lg border border-line/10 bg-surface-800/50 p-3 text-sm text-content">
           <Info size={16} className="mt-0.5 shrink-0 text-accent" />
           <div>{note}</div>
         </div>

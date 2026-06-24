@@ -15,12 +15,12 @@ import { Button } from '../../components/ui/Button'
 // Composition via children + a "slot" prop.
 function Panel({ title, actions, children }) {
   return (
-    <div className="rounded-lg border border-white/10 bg-surface-950 p-3">
+    <div className="rounded-lg border border-line/10 bg-surface-950 p-3">
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-sm font-semibold text-slate-100">{title}</span>
+        <span className="text-sm font-semibold text-content-strong">{title}</span>
         {actions}
       </div>
-      <div className="text-sm text-slate-300">{children}</div>
+      <div className="text-sm text-content">{children}</div>
     </div>
   )
 }

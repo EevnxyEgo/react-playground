@@ -30,10 +30,10 @@ function WindowSizeDemo() {
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       <RenderFlashWrapper label="useWindowSize()">
-        <p className="text-sm text-slate-300">
+        <p className="text-sm text-content">
           Resize your browser window — this re-renders (flash) and updates live.
         </p>
-        <p className="mt-2 font-mono text-2xl text-slate-100">
+        <p className="mt-2 font-mono text-2xl text-content-strong">
           {size.w} × {size.h}
         </p>
       </RenderFlashWrapper>
@@ -90,7 +90,7 @@ const [name, setName] = useLocalStorage("name", "");`}
           tooling enforces this.
         </KeyIdea>
         <Prose>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-content-muted">
             Fun fact: this very app is built from custom hooks —{' '}
             <Code>useRenderFlash</Code> (the flash effect) and{' '}
             <Code>useProgress</Code> (XP & completion) are both custom hooks.

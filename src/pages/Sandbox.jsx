@@ -25,7 +25,7 @@ export default function Sandbox() {
         <FlaskConical className="text-accent" size={26} />
         <div>
           <h1 className="text-3xl font-bold">Free Sandbox</h1>
-          <p className="text-slate-400">
+          <p className="text-content-muted">
             No lessons, no rules — just you and React. Experiment freely.
           </p>
         </div>

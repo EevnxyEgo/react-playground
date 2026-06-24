@@ -51,7 +51,7 @@ function CartDemo() {
               Clear
             </Button>
           </div>
-          <p className="text-sm text-slate-300">
+          <p className="text-sm text-content">
             {cart.items.length} item(s) · total{' '}
             <span className="font-mono text-accent">${cart.total}</span>
           </p>

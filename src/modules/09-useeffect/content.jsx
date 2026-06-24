@@ -38,7 +38,7 @@ function EffectDepsDemo() {
               other +1
             </Button>
           </div>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-content-faint">
             Both buttons re-render the component, but only “count +1” re-runs the effect.
           </p>
         </div>

@@ -18,19 +18,19 @@ export function CodeBlock({ code, filename, className }) {
   }
 
   return (
-    <div className={cn('overflow-hidden rounded-lg border border-white/10 bg-surface-950', className)}>
-      <div className="flex items-center justify-between border-b border-white/10 bg-surface-800/60 px-3 py-1.5">
-        <span className="font-mono text-xs text-slate-400">{filename || 'snippet'}</span>
+    <div className={cn('overflow-hidden rounded-lg border border-line/10 bg-surface-950', className)}>
+      <div className="flex items-center justify-between border-b border-line/10 bg-surface-800/60 px-3 py-1.5">
+        <span className="font-mono text-xs text-content-muted">{filename || 'snippet'}</span>
         <button
           onClick={copy}
-          className="flex items-center gap-1 rounded px-1.5 py-1 text-xs text-slate-400 hover:bg-white/5 focus-ring"
+          className="flex items-center gap-1 rounded px-1.5 py-1 text-xs text-content-muted hover:bg-line/5 focus-ring"
         >
           {copied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
           {copied ? 'Copied' : 'Copy'}
         </button>
       </div>
       <pre className="overflow-x-auto p-4 text-[13px] leading-relaxed">
-        <code className="font-mono text-slate-200">{code}</code>
+        <code className="font-mono text-content">{code}</code>
       </pre>
     </div>
   )

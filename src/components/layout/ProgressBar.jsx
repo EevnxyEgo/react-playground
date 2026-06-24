@@ -20,7 +20,7 @@ export function ProgressBar({ value = 0, className, barClassName, showLabel = fa
         />
       </div>
       {showLabel && (
-        <div className="mt-1 text-right text-xs text-slate-400">{pct}%</div>
+        <div className="mt-1 text-right text-xs text-content-muted">{pct}%</div>
       )}
     </div>
   )

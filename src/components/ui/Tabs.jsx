@@ -60,8 +60,8 @@ export function Tab({ value, className, children }) {
       className={cn(
         'rounded-md px-3 py-1.5 text-sm font-medium transition-all focus-ring',
         selected
-          ? 'bg-accent text-surface-950 shadow'
-          : 'text-slate-400 hover:text-slate-200',
+          ? 'bg-accent text-slate-950 shadow'
+          : 'text-content-muted hover:text-content',
         className,
       )}
     >

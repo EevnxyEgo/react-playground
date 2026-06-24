@@ -205,7 +205,7 @@ export default function FinalProjectModule() {
       <Section icon={BookOpen} title="What's inside" step="Concepts combined">
         <div className="grid gap-2 sm:grid-cols-2">
           {concepts.map((c) => (
-            <div key={c} className="flex items-center gap-2 rounded-lg border border-white/10 bg-surface-900 p-2.5 text-sm text-slate-300">
+            <div key={c} className="flex items-center gap-2 rounded-lg border border-line/10 bg-surface-900 p-2.5 text-sm text-content">
               <CheckCircle2 size={15} className="shrink-0 text-emerald-400" />
               {c}
             </div>

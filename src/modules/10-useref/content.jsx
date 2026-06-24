@@ -20,7 +20,7 @@ function StateCounter() {
   const [n, setN] = useState(0)
   return (
     <RenderFlashWrapper label="useState — triggers re-render">
-      <p className="font-mono text-3xl text-slate-100">{n}</p>
+      <p className="font-mono text-3xl text-content-strong">{n}</p>
       <Button size="sm" className="mt-2" onClick={() => setN((x) => x + 1)}>
         +1 (re-renders)
       </Button>
@@ -33,7 +33,7 @@ function RefCounter() {
   const [, force] = useState(0)
   return (
     <RenderFlashWrapper label="useRef — does NOT re-render">
-      <p className="font-mono text-3xl text-slate-100">{n.current}</p>
+      <p className="font-mono text-3xl text-content-strong">{n.current}</p>
       <div className="mt-2 flex gap-2">
         <Button size="sm" variant="secondary" onClick={() => (n.current += 1)}>
           +1 (no render)
@@ -42,7 +42,7 @@ function RefCounter() {
           force render
         </Button>
       </div>
-      <p className="mt-1 text-xs text-slate-500">
+      <p className="mt-1 text-xs text-content-faint">
         The value changes silently — click “force render” to reveal the real
         current value.
       </p>

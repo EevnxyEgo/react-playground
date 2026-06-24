@@ -25,7 +25,7 @@ function StateCounterDemo() {
     <div className="grid gap-3 sm:grid-cols-2">
       <RenderFlashWrapper label="Counter (useState)">
         <div className="py-2 text-center">
-          <p className="font-mono text-5xl font-bold text-slate-100">{count}</p>
+          <p className="font-mono text-5xl font-bold text-content-strong">{count}</p>
           <div className="mt-4 flex justify-center gap-2">
             <Button size="sm" variant="secondary" onClick={() => setCount((c) => c - 1)}>
               −1

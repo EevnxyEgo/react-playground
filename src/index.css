@@ -8,8 +8,37 @@
  * opt-in via the `dark` class on <html>, toggled from AppContext.
  */
 
+/*
+ * Theme tokens. The DEFAULT (dark) values live on :root so the app is dark even
+ * for the first paint; the light overrides apply when <html> is NOT .dark.
+ * Components reference these via Tailwind colors: surface-*, content-*, line.
+ */
 :root {
   color-scheme: dark;
+  --s-950: 10 15 26;
+  --s-900: 13 20 36;
+  --s-800: 18 26 46;
+  --s-700: 27 37 64;
+  --s-600: 39 50 79;
+  --c-strong: 241 245 249; /* slate-100 */
+  --c-base: 226 232 240; /* slate-200 */
+  --c-muted: 148 163 184; /* slate-400 */
+  --c-faint: 100 116 139; /* slate-500 */
+  --line: 255 255 255;
+}
+
+html:not(.dark) {
+  color-scheme: light;
+  --s-950: 248 250 252; /* page (slate-50) */
+  --s-900: 255 255 255; /* cards (white) */
+  --s-800: 241 245 249; /* panels / inputs (slate-100) */
+  --s-700: 226 232 240; /* toolbars / track (slate-200) */
+  --s-600: 203 213 225; /* hover (slate-300) */
+  --c-strong: 15 23 42; /* slate-900 */
+  --c-base: 30 41 59; /* slate-800 */
+  --c-muted: 71 85 105; /* slate-600 */
+  --c-faint: 100 116 139; /* slate-500 */
+  --line: 15 23 42; /* slate-900 */
 }
 
 html {
@@ -17,13 +46,9 @@ html {
 }
 
 body {
-  @apply bg-surface-950 text-slate-200 font-sans antialiased;
+  @apply bg-surface-950 text-content font-sans antialiased;
   margin: 0;
   min-height: 100vh;
-}
-
-html:not(.dark) body {
-  @apply bg-slate-50 text-slate-800;
 }
 
 /* Thin, themed scrollbars to match the IDE feel */

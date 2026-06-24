@@ -25,7 +25,7 @@ function ToggleDemo() {
             🔒 The secret is: React makes this easy.
           </p>
         ) : (
-          <p className="text-sm text-slate-500">(hidden)</p>
+          <p className="text-sm text-content-faint">(hidden)</p>
         )}
       </div>
     </RenderFlashWrapper>

@@ -35,8 +35,8 @@ export default function Progress() {
         {tiles.map((t) => (
           <Card key={t.label} className="p-4">
             <t.icon size={18} className="mb-2 text-accent" />
-            <p className="text-2xl font-bold text-slate-100">{t.value}</p>
-            <p className="text-xs text-slate-400">{t.label}</p>
+            <p className="text-2xl font-bold text-content-strong">{t.value}</p>
+            <p className="text-xs text-content-muted">{t.label}</p>
           </Card>
         ))}
       </div>
@@ -45,7 +45,7 @@ export default function Progress() {
       <Card className="p-5">
         <div className="mb-2 flex items-center justify-between">
           <span className="font-semibold">Level {stats.level}</span>
-          <span className="font-mono text-sm text-slate-400">
+          <span className="font-mono text-sm text-content-muted">
             {stats.xpIntoLevel}/{stats.xpForLevel} XP to next level
           </span>
         </div>
@@ -56,7 +56,7 @@ export default function Progress() {
       <section>
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-xl font-bold">Badges</h2>
-          <span className="text-sm text-slate-500">
+          <span className="text-sm text-content-faint">
             {earnedCount}/{badges.length} earned
           </span>
         </div>
@@ -74,14 +74,14 @@ export default function Progress() {
                 <span
                   className={cn(
                     'grid h-10 w-10 shrink-0 place-items-center rounded-lg',
-                    b.earned ? 'bg-flash/15 text-flash' : 'bg-surface-800 text-slate-500',
+                    b.earned ? 'bg-flash/15 text-flash' : 'bg-surface-800 text-content-faint',
                   )}
                 >
                   <Icon size={18} />
                 </span>
                 <div className="min-w-0">
-                  <p className="font-semibold text-slate-100">{b.title}</p>
-                  <p className="text-xs text-slate-400">{b.description}</p>
+                  <p className="font-semibold text-content-strong">{b.title}</p>
+                  <p className="text-xs text-content-muted">{b.description}</p>
                   {b.earned && (
                     <Badge tone="flash" className="mt-1">
                       Earned
@@ -97,8 +97,8 @@ export default function Progress() {
       {/* Reset */}
       <Card className="flex flex-col items-start gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="font-semibold text-slate-100">Reset progress</p>
-          <p className="text-sm text-slate-400">
+          <p className="font-semibold text-content-strong">Reset progress</p>
+          <p className="text-sm text-content-muted">
             Clears all completion, XP and badges from this browser. Can't be undone.
           </p>
         </div>

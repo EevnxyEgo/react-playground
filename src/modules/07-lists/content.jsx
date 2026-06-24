@@ -24,12 +24,12 @@ function KeyBugDemo() {
 
   const Row = ({ item }) => (
     <li className="flex items-center gap-2">
-      <span className="w-16 text-sm text-slate-300">{item.label}</span>
+      <span className="w-16 text-sm text-content">{item.label}</span>
       <input
         // Uncontrolled on purpose: the DOM node holds its own text, so we can
         // see which node React reuses when the list changes.
         placeholder="type here"
-        className="flex-1 rounded border border-white/10 bg-surface-800 px-2 py-1 text-sm text-slate-200 focus-ring"
+        className="flex-1 rounded border border-line/10 bg-surface-800 px-2 py-1 text-sm text-content focus-ring"
       />
     </li>
   )
@@ -62,7 +62,7 @@ function KeyBugDemo() {
           </ul>
         </div>
       </div>
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-content-faint">
         Try it: type your initials into each box on both sides, then click
         “Remove first row”. On the left the text stays glued to its <em>position</em>{' '}
         (wrong item); on the right it correctly follows the <em>item</em>.

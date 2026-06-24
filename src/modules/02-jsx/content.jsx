@@ -38,10 +38,10 @@ export default function JsxModule() {
             ['Embed JS with { }', 'Put any JS expression in braces: {user.name}, {2 + 2}.'],
             ['Close every tag', 'Even void tags: <img />, <br />, <input />.'],
           ].map(([t, d]) => (
-            <div key={t} className="flex items-start gap-2 rounded-lg border border-white/10 bg-surface-900 p-3">
+            <div key={t} className="flex items-start gap-2 rounded-lg border border-line/10 bg-surface-900 p-3">
               <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-accent" />
-              <p className="text-sm text-slate-300">
-                <strong className="text-slate-100">{t}</strong> — {d}
+              <p className="text-sm text-content">
+                <strong className="text-content-strong">{t}</strong> — {d}
               </p>
             </div>
           ))}

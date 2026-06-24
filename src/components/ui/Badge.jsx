@@ -2,11 +2,11 @@ import { cn } from '../../lib/cn'
 
 // Small pill label — used for categories, "Comparison", "Visualizer", XP, etc.
 const TONES = {
-  default: 'bg-white/5 text-slate-300 border-white/10',
+  default: 'bg-line/5 text-content border-line/10',
   accent: 'bg-accent/15 text-accent border-accent/30',
   flash: 'bg-flash/15 text-flash border-flash/30',
   success: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-  muted: 'bg-white/5 text-slate-400 border-white/10',
+  muted: 'bg-line/5 text-content-muted border-line/10',
 }
 
 export function Badge({ tone = 'default', className, children, ...rest }) {

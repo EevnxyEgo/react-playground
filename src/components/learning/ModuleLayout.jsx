@@ -35,7 +35,7 @@ export function ModuleLayout({ meta, children }) {
         <header className="space-y-3">
           <div className="flex flex-wrap items-center gap-2 text-sm">
             <Badge tone="muted">{meta.category}</Badge>
-            <span className="font-mono text-slate-500">
+            <span className="font-mono text-content-faint">
               Module {String(meta.num).padStart(2, '0')}
             </span>
             {meta.comparison && (
@@ -55,7 +55,7 @@ export function ModuleLayout({ meta, children }) {
             </span>
             <div>
               <h1 className="text-3xl font-extrabold leading-tight">{meta.title}</h1>
-              <p className="text-slate-400">{meta.short}</p>
+              <p className="text-content-muted">{meta.short}</p>
             </div>
           </div>
         </header>
@@ -65,16 +65,16 @@ export function ModuleLayout({ meta, children }) {
 
         {/* Mark complete */}
         <motion.div
-          className="rounded-xl border border-white/10 bg-surface-900 p-5"
+          className="rounded-xl border border-line/10 bg-surface-900 p-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
           <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="font-semibold text-slate-100">
+              <p className="font-semibold text-content-strong">
                 {done ? 'Module completed 🎉' : 'Finished this module?'}
               </p>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-content-muted">
                 {done
                   ? 'Nice work. You can revisit it any time.'
                   : 'Mark it complete to earn XP and track your progress.'}

@@ -22,7 +22,7 @@ function ComponentRenderDemo() {
   return (
     <div className="space-y-3">
       <RenderFlashWrapper label="<Greeting /> component">
-        <p className="text-slate-200">
+        <p className="text-content">
           Hi 👋 — this component has re-rendered after{' '}
           <span className="font-mono text-accent">{count}</span> click(s).
         </p>
@@ -30,7 +30,7 @@ function ComponentRenderDemo() {
       <Button size="sm" onClick={() => setCount((c) => c + 1)}>
         Re-render the component
       </Button>
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-content-faint">
         Each click updates state → React re-renders → you see the amber flash.
       </p>
     </div>

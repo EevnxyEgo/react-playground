@@ -48,10 +48,10 @@ export default function WelcomeModule() {
             { icon: Trophy, t: '5. Mini Challenge', d: 'A small task with a self-check checklist.' },
             { icon: Sparkles, t: '6. Quiz', d: 'Instant feedback — and a little confetti when you nail it.' },
           ].map((s) => (
-            <div key={s.t} className="rounded-xl border border-white/10 bg-surface-900 p-4">
+            <div key={s.t} className="rounded-xl border border-line/10 bg-surface-900 p-4">
               <s.icon size={18} className="mb-2 text-accent" />
-              <p className="font-semibold text-slate-100">{s.t}</p>
-              <p className="text-sm text-slate-400">{s.d}</p>
+              <p className="font-semibold text-content-strong">{s.t}</p>
+              <p className="text-sm text-content-muted">{s.d}</p>
             </div>
           ))}
         </div>

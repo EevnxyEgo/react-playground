@@ -8,8 +8,8 @@ import { cn } from '../../lib/cn'
  */
 export function StateInspector({ data, title = 'State', className }) {
   return (
-    <div className={cn('rounded-xl border border-white/10 bg-surface-950', className)}>
-      <div className="flex items-center gap-1.5 border-b border-white/10 px-3 py-2 text-xs font-medium text-slate-400">
+    <div className={cn('rounded-xl border border-line/10 bg-surface-950', className)}>
+      <div className="flex items-center gap-1.5 border-b border-line/10 px-3 py-2 text-xs font-medium text-content-muted">
         <Braces size={13} className="text-accent" /> {title}
       </div>
       <pre className="overflow-x-auto p-3 text-[13px] leading-relaxed">

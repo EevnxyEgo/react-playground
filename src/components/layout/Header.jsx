@@ -11,9 +11,9 @@ export function Header({ onMenu }) {
   const { stats, isDark, toggleTheme } = useProgress()
 
   return (
-    <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-white/5 bg-surface-950/80 px-4 backdrop-blur lg:px-6">
+    <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-line/10 bg-surface-950/80 px-4 backdrop-blur lg:px-6">
       <button
-        className="rounded-md p-2 text-slate-300 hover:bg-white/5 lg:hidden focus-ring"
+        className="rounded-md p-2 text-content hover:bg-line/5 lg:hidden focus-ring"
         onClick={onMenu}
         aria-label="Open menu"
       >
@@ -34,13 +34,13 @@ export function Header({ onMenu }) {
 
       {/* Theme toggle */}
       <div className="flex items-center gap-2">
-        <Sun size={16} className={isDark ? 'text-slate-500' : 'text-flash'} />
+        <Sun size={16} className={isDark ? 'text-content-faint' : 'text-flash'} />
         <Toggle
           checked={isDark}
           onChange={toggleTheme}
           label="Toggle dark mode"
         />
-        <Moon size={16} className={isDark ? 'text-accent' : 'text-slate-400'} />
+        <Moon size={16} className={isDark ? 'text-accent' : 'text-content-muted'} />
       </div>
     </header>
   )

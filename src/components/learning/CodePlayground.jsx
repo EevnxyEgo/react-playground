@@ -37,13 +37,13 @@ export function CodePlayground({
   return (
     <div
       className={cn(
-        'overflow-hidden rounded-xl border border-white/10 bg-surface-900',
+        'overflow-hidden rounded-xl border border-line/10 bg-surface-900',
         className,
       )}
     >
       {/* Toolbar */}
-      <div className="flex items-center justify-between border-b border-white/10 bg-surface-800/60 px-3 py-2">
-        <span className="flex items-center gap-2 text-sm font-medium text-slate-300">
+      <div className="flex items-center justify-between border-b border-line/10 bg-surface-800/60 px-3 py-2">
+        <span className="flex items-center gap-2 text-sm font-medium text-content">
           <Code2 size={15} className="text-accent" /> {title}
         </span>
         <div className="flex items-center gap-1.5">

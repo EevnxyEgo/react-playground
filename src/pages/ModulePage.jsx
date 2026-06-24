@@ -20,7 +20,7 @@ export default function ModulePage() {
   if (!meta) {
     return (
       <PageTransition className="py-24 text-center">
-        <p className="text-slate-400">Module “{slug}” doesn't exist.</p>
+        <p className="text-content-muted">Module “{slug}” doesn't exist.</p>
         <Link to="/" className="mt-4 inline-block">
           <Button>Back home</Button>
         </Link>
@@ -45,7 +45,7 @@ export default function ModulePage() {
 
 function ModuleLoading() {
   return (
-    <div className="grid h-48 place-items-center text-slate-500">
+    <div className="grid h-48 place-items-center text-content-faint">
       <Loader2 className="animate-spin text-accent" size={28} />
     </div>
   )
@@ -53,10 +53,10 @@ function ModuleLoading() {
 
 function ComingSoon() {
   return (
-    <div className="rounded-xl border border-dashed border-white/15 bg-surface-900 p-10 text-center">
+    <div className="rounded-xl border border-dashed border-line/15 bg-surface-900 p-10 text-center">
       <Construction className="mx-auto mb-3 text-flash" size={28} />
-      <p className="font-semibold text-slate-200">This module is being authored.</p>
-      <p className="mt-1 text-sm text-slate-400">
+      <p className="font-semibold text-content">This module is being authored.</p>
+      <p className="mt-1 text-sm text-content-muted">
         Check back soon — or jump into the free sandbox to keep practicing.
       </p>
       <Link to="/sandbox" className="mt-4 inline-block">

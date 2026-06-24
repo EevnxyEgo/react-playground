@@ -23,7 +23,7 @@ function FormDemo() {
     setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
   }
 
-  const field = 'w-full rounded-lg border border-white/10 bg-surface-800 px-3 py-2 text-sm text-slate-200 focus-ring'
+  const field = 'w-full rounded-lg border border-line/10 bg-surface-800 px-3 py-2 text-sm text-content focus-ring'
 
   return (
     <div className="grid gap-3 sm:grid-cols-2">
@@ -31,7 +31,7 @@ function FormDemo() {
         <div className="space-y-2">
           <input name="name" value={form.name} onChange={update} placeholder="Name" className={field} />
           <input name="email" value={form.email} onChange={update} placeholder="Email" className={field} />
-          <label className="flex items-center gap-2 text-sm text-slate-300">
+          <label className="flex items-center gap-2 text-sm text-content">
             <input type="checkbox" name="subscribe" checked={form.subscribe} onChange={update} />
             Subscribe to the newsletter
           </label>

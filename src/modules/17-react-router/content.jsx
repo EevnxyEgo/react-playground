@@ -39,18 +39,18 @@ function MiniRouterDemo() {
   )
 
   return (
-    <div className="rounded-xl border border-white/10 bg-surface-950 p-4">
+    <div className="rounded-xl border border-line/10 bg-surface-950 p-4">
       <div className="mb-3 flex flex-wrap gap-2">
         {link('/', 'Home')}
         {link('/about', 'About')}
         {link('/user/42', 'User 42')}
         {link('/user/ada', 'User ada')}
       </div>
-      <div className="mb-2 flex items-center gap-2 rounded-md border border-white/10 bg-surface-900 px-3 py-1.5 font-mono text-xs text-slate-400">
+      <div className="mb-2 flex items-center gap-2 rounded-md border border-line/10 bg-surface-900 px-3 py-1.5 font-mono text-xs text-content-muted">
         <Globe size={13} className="text-accent" /> myapp.com{path}
       </div>
-      <div className="rounded-lg bg-surface-900 p-3 text-sm text-slate-200">{view}</div>
-      <p className="mt-2 text-xs text-slate-500">
+      <div className="rounded-lg bg-surface-900 p-3 text-sm text-content">{view}</div>
+      <p className="mt-2 text-xs text-content-faint">
         Notice: the content swaps with no full-page reload — that's a Single Page App.
       </p>
     </div>

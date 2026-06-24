@@ -24,14 +24,24 @@ export default {
           DEFAULT: '#facc15', // amber-400
           strong: '#f59e0b', // amber-500
         },
-        // Neutral surface scale tuned for the dark developer-tool aesthetic
+        // Neutral surface scale — CSS-variable driven so it flips between the
+        // dark (default) and light themes. Values live in src/index.css.
         surface: {
-          950: '#0a0f1a',
-          900: '#0d1424',
-          800: '#121a2e',
-          700: '#1b2540',
-          600: '#27324f',
+          950: 'rgb(var(--s-950) / <alpha-value>)',
+          900: 'rgb(var(--s-900) / <alpha-value>)',
+          800: 'rgb(var(--s-800) / <alpha-value>)',
+          700: 'rgb(var(--s-700) / <alpha-value>)',
+          600: 'rgb(var(--s-600) / <alpha-value>)',
         },
+        // Themed neutral text scale (replaces hard-coded slate-* for body text).
+        content: {
+          strong: 'rgb(var(--c-strong) / <alpha-value>)',
+          DEFAULT: 'rgb(var(--c-base) / <alpha-value>)',
+          muted: 'rgb(var(--c-muted) / <alpha-value>)',
+          faint: 'rgb(var(--c-faint) / <alpha-value>)',
+        },
+        // Themed hairline color for borders / subtle fills.
+        line: 'rgb(var(--line) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

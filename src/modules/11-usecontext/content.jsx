@@ -22,7 +22,7 @@ function DeepButton() {
     <div
       className={
         'rounded-lg border p-3 text-sm ' +
-        (dark ? 'border-accent/40 bg-surface-800 text-slate-100' : 'border-amber-400/40 bg-amber-50 text-slate-900')
+        (dark ? 'border-accent/40 bg-surface-800 text-content-strong' : 'border-amber-400/40 bg-amber-50 text-slate-900')
       }
     >
       <p className="mb-2">I'm 3 levels deep and got the theme from context.</p>
@@ -32,8 +32,8 @@ function DeepButton() {
     </div>
   )
 }
-const Level2 = () => <div className="rounded-lg border border-white/10 p-3"><p className="mb-2 text-xs text-slate-500">Level 2 (passes no props)</p><DeepButton /></div>
-const Level1 = () => <div className="rounded-lg border border-white/10 p-3"><p className="mb-2 text-xs text-slate-500">Level 1 (passes no props)</p><Level2 /></div>
+const Level2 = () => <div className="rounded-lg border border-line/10 p-3"><p className="mb-2 text-xs text-content-faint">Level 2 (passes no props)</p><DeepButton /></div>
+const Level1 = () => <div className="rounded-lg border border-line/10 p-3"><p className="mb-2 text-xs text-content-faint">Level 1 (passes no props)</p><Level2 /></div>
 
 function ContextDemo() {
   const [dark, setDark] = useState(true)
@@ -54,7 +54,7 @@ function DrillingDiagram() {
   )
   const drill = 'border-rose-500/30 bg-rose-500/5 text-rose-200'
   const ctx = 'border-emerald-500/30 bg-emerald-500/5 text-emerald-200'
-  const plain = 'border-white/10 bg-surface-900 text-slate-400'
+  const plain = 'border-line/10 bg-surface-900 text-content-muted'
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       <div className="space-y-1">

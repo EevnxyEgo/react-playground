@@ -19,14 +19,14 @@ import { Button } from '../../components/ui/Button'
 function FlashChild({ label, value }) {
   const { ref, renderCount } = useRenderFlash()
   return (
-    <div ref={ref} className="rounded-lg border border-white/10 bg-surface-950 p-3">
+    <div ref={ref} className="rounded-lg border border-line/10 bg-surface-950 p-3">
       <div className="flex items-center justify-between">
-        <span className="text-sm text-slate-200">{label}</span>
+        <span className="text-sm text-content">{label}</span>
         <span className="rounded-full bg-flash/15 px-2 py-0.5 font-mono text-xs text-flash">
           renders: {renderCount}
         </span>
       </div>
-      <p className="mt-1 font-mono text-xs text-slate-500">prop value: {String(value)}</p>
+      <p className="mt-1 font-mono text-xs text-content-faint">prop value: {String(value)}</p>
     </div>
   )
 }
@@ -42,7 +42,7 @@ function UnoptimizedPanel() {
       </Button>
       <FlashChild label="Child A (uses count)" value={count} />
       <FlashChild label="Child B (static prop)" value="static" />
-      <p className="text-xs text-slate-500">Both children flash every time — even B.</p>
+      <p className="text-xs text-content-faint">Both children flash every time — even B.</p>
     </div>
   )
 }
@@ -57,7 +57,7 @@ function OptimizedPanel() {
       </Button>
       <MemoChild label="Child A (uses count)" value={count} />
       <MemoChild label="Child B (static prop)" value="static" />
-      <p className="text-xs text-slate-500">Only A flashes — B's props never change.</p>
+      <p className="text-xs text-content-faint">Only A flashes — B's props never change.</p>
     </div>
   )
 }

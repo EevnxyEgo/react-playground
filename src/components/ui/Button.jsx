@@ -4,12 +4,12 @@ import { cn } from '../../lib/cn'
 // callers tweak layout without prop-explosion.
 const VARIANTS = {
   primary:
-    'bg-gradient-to-r from-accent to-accent-glow text-surface-950 font-semibold hover:brightness-110 shadow-glow',
+    'bg-gradient-to-r from-accent to-accent-glow text-slate-950 font-semibold hover:brightness-110 shadow-glow',
   secondary:
-    'bg-surface-700 text-slate-100 hover:bg-surface-600 border border-white/5',
+    'bg-surface-700 text-content-strong hover:bg-surface-600 border border-line/10',
   outline:
     'border border-accent/40 text-accent hover:bg-accent/10',
-  ghost: 'text-slate-300 hover:bg-white/5',
+  ghost: 'text-content hover:bg-line/5',
   danger: 'bg-rose-500/90 text-white hover:bg-rose-500',
 }
 

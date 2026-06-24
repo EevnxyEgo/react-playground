@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <PageTransition className="space-y-10">
       {/* Hero */}
-      <section className="relative overflow-hidden rounded-2xl border border-white/5 bg-gradient-to-br from-surface-900 via-surface-900 to-surface-800 p-8 lg:p-12">
+      <section className="relative overflow-hidden rounded-2xl border border-line/10 bg-gradient-to-br from-surface-900 via-surface-900 to-surface-800 p-8 lg:p-12">
         <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-accent/10 blur-3xl" />
         <div className="relative max-w-2xl space-y-5">
           <Badge tone="accent" className="gap-1">
@@ -40,7 +40,7 @@ export default function Home() {
           <h1 className="text-4xl font-extrabold leading-tight lg:text-5xl">
             Master React, <span className="text-gradient">one playground at a time.</span>
           </h1>
-          <p className="text-lg text-slate-400">
+          <p className="text-lg text-content-muted">
             From your first component to advanced hooks — {modulesList.length} hands-on
             modules with live code, render visualizations and quizzes that make the
             concepts actually stick.
@@ -60,7 +60,7 @@ export default function Home() {
 
           {stats.modulesDone > 0 && (
             <div className="pt-4">
-              <div className="mb-1 flex items-center justify-between text-sm text-slate-400">
+              <div className="mb-1 flex items-center justify-between text-sm text-content-muted">
                 <span>You're {stats.percent}% through the course</span>
                 <span className="font-mono text-accent">{stats.xp} XP</span>
               </div>
@@ -75,8 +75,8 @@ export default function Home() {
         {features.map((f) => (
           <Card key={f.title} className="p-5">
             <f.icon className="mb-3 text-accent" size={22} />
-            <h3 className="font-semibold text-slate-100">{f.title}</h3>
-            <p className="mt-1 text-sm text-slate-400">{f.text}</p>
+            <h3 className="font-semibold text-content-strong">{f.title}</h3>
+            <p className="mt-1 text-sm text-content-muted">{f.text}</p>
           </Card>
         ))}
       </section>
@@ -85,7 +85,7 @@ export default function Home() {
       <section className="space-y-6">
         <div className="flex items-end justify-between">
           <h2 className="text-2xl font-bold">The curriculum</h2>
-          <span className="text-sm text-slate-500">
+          <span className="text-sm text-content-faint">
             {stats.modulesDone}/{stats.totalModules} complete
           </span>
         </div>
@@ -94,7 +94,7 @@ export default function Home() {
           const items = modulesList.filter((m) => m.category === cat)
           return (
             <div key={cat}>
-              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">
+              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-content-faint">
                 {cat}
               </h3>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -110,23 +110,23 @@ export default function Home() {
                           </span>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
-                              <span className="font-mono text-xs text-slate-500">
+                              <span className="font-mono text-xs text-content-faint">
                                 {String(m.num).padStart(2, '0')}
                               </span>
                               {done && (
                                 <CheckCircle2 size={14} className="text-emerald-400" />
                               )}
                             </div>
-                            <h4 className="truncate font-semibold text-slate-100 group-hover:text-accent">
+                            <h4 className="truncate font-semibold text-content-strong group-hover:text-accent">
                               {m.title}
                             </h4>
-                            <p className="mt-0.5 line-clamp-2 text-sm text-slate-400">
+                            <p className="mt-0.5 line-clamp-2 text-sm text-content-muted">
                               {m.short}
                             </p>
                           </div>
                           <ArrowRight
                             size={16}
-                            className="mt-1 shrink-0 text-slate-600 transition-transform group-hover:translate-x-0.5 group-hover:text-accent"
+                            className="mt-1 shrink-0 text-content-faint transition-transform group-hover:translate-x-0.5 group-hover:text-accent"
                           />
                         </div>
                       </Card>

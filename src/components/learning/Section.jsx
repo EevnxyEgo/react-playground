@@ -16,9 +16,9 @@ export function Section({ icon: Icon, title, step, children, className }) {
             <Icon size={16} />
           </span>
         )}
-        <h2 className="text-lg font-bold text-slate-100">{title}</h2>
+        <h2 className="text-lg font-bold text-content-strong">{title}</h2>
         {step && (
-          <span className="ml-auto font-mono text-xs text-slate-500">{step}</span>
+          <span className="ml-auto font-mono text-xs text-content-faint">{step}</span>
         )}
       </div>
       <div className="space-y-3">{children}</div>
@@ -31,7 +31,7 @@ export function Hook({ children }) {
   return (
     <div className="relative overflow-hidden rounded-xl border border-accent/20 bg-accent/5 p-5">
       <HelpCircle className="mb-2 text-accent" size={20} />
-      <p className="text-lg font-medium text-slate-100">{children}</p>
+      <p className="text-lg font-medium text-content-strong">{children}</p>
     </div>
   )
 }
@@ -43,7 +43,7 @@ export function KeyIdea({ children, title = 'Key idea' }) {
       <p className="mb-1 flex items-center gap-1.5 text-sm font-semibold text-flash">
         <Sparkles size={14} /> {title}
       </p>
-      <div className="text-sm text-slate-300">{children}</div>
+      <div className="text-sm text-content">{children}</div>
     </div>
   )
 }
@@ -51,7 +51,7 @@ export function KeyIdea({ children, title = 'Key idea' }) {
 // Plain prose paragraph(s) with comfortable reading styles.
 export function Prose({ children, className }) {
   return (
-    <div className={cn('space-y-3 text-[15px] leading-relaxed text-slate-300', className)}>
+    <div className={cn('space-y-3 text-[15px] leading-relaxed text-content', className)}>
       {children}
     </div>
   )

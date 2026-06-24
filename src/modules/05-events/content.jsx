@@ -28,7 +28,7 @@ function EventsDemo() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Type something…"
-            className="w-full rounded-lg border border-white/10 bg-surface-800 px-3 py-2 text-sm text-slate-200 focus-ring"
+            className="w-full rounded-lg border border-line/10 bg-surface-800 px-3 py-2 text-sm text-content focus-ring"
           />
         </div>
       </RenderFlashWrapper>

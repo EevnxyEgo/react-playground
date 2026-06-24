@@ -6,9 +6,7 @@ export function Card({ className, as: Tag = 'div', children, ...rest }) {
   return (
     <Tag
       className={cn(
-        'rounded-xl border border-white/5 bg-surface-900/80 shadow-card backdrop-blur-sm',
-        'dark:bg-surface-900/80',
-        'light:bg-white',
+        'rounded-xl border border-line/10 bg-surface-900/80 shadow-card backdrop-blur-sm',
         className,
       )}
       {...rest}

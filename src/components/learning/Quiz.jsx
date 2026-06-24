@@ -47,12 +47,12 @@ function QuizItem({ q, index }) {
   }
 
   return (
-    <div className="relative rounded-xl border border-white/10 bg-surface-900 p-5">
+    <div className="relative rounded-xl border border-line/10 bg-surface-900 p-5">
       <Confetti fire={isCorrect ? fire : 0} />
-      <p className="mb-3 flex items-start gap-2 font-medium text-slate-100">
+      <p className="mb-3 flex items-start gap-2 font-medium text-content-strong">
         <HelpCircle size={18} className="mt-0.5 shrink-0 text-accent" />
         <span>
-          <span className="mr-1 font-mono text-xs text-slate-500">Q{index + 1}.</span>
+          <span className="mr-1 font-mono text-xs text-content-faint">Q{index + 1}.</span>
           {q.question}
         </span>
       </p>
@@ -70,10 +70,10 @@ function QuizItem({ q, index }) {
               disabled={isCorrect}
               className={cn(
                 'flex items-center justify-between rounded-lg border px-3 py-2 text-left text-sm transition-colors focus-ring',
-                !answered && 'border-white/10 hover:border-accent/40 hover:bg-white/5',
+                !answered && 'border-line/10 hover:border-accent/40 hover:bg-line/5',
                 showCorrect && 'border-emerald-500/50 bg-emerald-500/10 text-emerald-200',
                 showWrong && 'border-rose-500/50 bg-rose-500/10 text-rose-200',
-                answered && !showCorrect && !showWrong && 'border-white/10 opacity-60',
+                answered && !showCorrect && !showWrong && 'border-line/10 opacity-60',
               )}
             >
               <span>{opt}</span>
