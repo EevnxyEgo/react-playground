@@ -9,4 +9,9 @@ export default defineConfig({
     port: 5173,
     open: true,
   },
+  build: {
+    // The Sandpack bundler is intentionally large and already lives in its own
+    // chunk; raise the limit so the build stays warning-free.
+    chunkSizeWarningLimit: 1600,
+  },
 })
