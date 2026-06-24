@@ -18,4 +18,6 @@ export const moduleComponents = {
   'conditional-rendering': lazy(() => import('./06-conditional/content.jsx')),
   'lists-and-keys': lazy(() => import('./07-lists/content.jsx')),
   forms: lazy(() => import('./08-forms/content.jsx')),
+  useeffect: lazy(() => import('./09-useeffect/content.jsx')),
+  useref: lazy(() => import('./10-useref/content.jsx')),
 }
