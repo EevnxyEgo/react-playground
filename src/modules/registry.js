@@ -14,4 +14,8 @@ export const moduleComponents = {
   jsx: lazy(() => import('./02-jsx/content.jsx')),
   props: lazy(() => import('./03-props/content.jsx')),
   state: lazy(() => import('./04-state/content.jsx')),
+  events: lazy(() => import('./05-events/content.jsx')),
+  'conditional-rendering': lazy(() => import('./06-conditional/content.jsx')),
+  'lists-and-keys': lazy(() => import('./07-lists/content.jsx')),
+  forms: lazy(() => import('./08-forms/content.jsx')),
 }
