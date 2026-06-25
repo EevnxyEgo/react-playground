@@ -6,6 +6,7 @@ import { getAdjacentModules } from '../../data/modulesList'
 import { getIcon } from '../../lib/icons'
 import { useProgress } from '../../hooks/useProgress'
 import { ModuleContext } from './ModuleContext'
+import { TeachBackPrompt } from './TeachBackPrompt'
 import { Button } from '../ui/Button'
 import { Badge } from '../ui/Badge'
 import { PageTransition } from '../layout/PageTransition'
@@ -75,6 +76,9 @@ export function ModuleLayout({
         </header>
 
         <div className="space-y-10">{children}</div>
+
+        {/* Active recall — explain the module in your own words (Teach-Back). */}
+        <TeachBackPrompt topic={meta.title} type="module" />
 
         <motion.div
           className="rounded-xl border border-line/10 bg-surface-900 p-5"

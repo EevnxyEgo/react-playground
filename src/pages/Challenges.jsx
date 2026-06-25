@@ -5,9 +5,36 @@ import { useProgress } from '../hooks/useProgress'
 import { PageTransition } from '../components/layout/PageTransition'
 import { FeatureHeader } from '../components/v2/FeatureHeader'
 import { CodePlayground } from '../components/learning/CodePlayground'
+import { TeachBackPrompt } from '../components/learning/TeachBackPrompt'
+import { CommonMistake } from '../components/learning/CommonMistake'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
 import { cn } from '../lib/cn'
+
+// Contextual "common mistake" per challenge category — cross-links to existing
+// Debugging Gauntlet / Predict-the-Output content (v3 Section 3.4).
+const CATEGORY_MISTAKE = {
+  'Component-building classics': {
+    to: '/debugging-gauntlet', link: 'See the index-key bug',
+    text: 'For anything dynamic (lists that add/remove/reorder), use a stable id as the key — never the array index, or React reuses the wrong DOM nodes.',
+  },
+  'Data & async patterns': {
+    to: '/debugging-gauntlet', link: 'See the race-condition bug',
+    text: 'Async effects need cleanup: ignore stale responses (an active flag / AbortController) or a slow earlier request can overwrite newer data.',
+  },
+  'Forms': {
+    to: '/debugging-gauntlet', link: 'Related: state-mutation bug',
+    text: "Keep inputs controlled (value + onChange) and update state immutably — mutating the form object in place won't re-render reliably.",
+  },
+  'Custom hooks': {
+    to: '/predict-output', link: 'Predict: object identity',
+    text: 'Return stable references from hooks (useCallback/useMemo) so consumers that depend on them in effect arrays or memo do not re-run every render.',
+  },
+  'Patterns': {
+    to: '/predict-output', link: 'Predict: object identity',
+    text: 'Inline objects/functions passed as props are new each render — they quietly defeat React.memo on the child. Memoize them.',
+  },
+}
 
 /*
  * Interview Challenge Library — a browsable bank of realistic exercises. List
@@ -99,6 +126,12 @@ function ChallengeDetail({ challenge, solved, onSolve, onBack }) {
         editorHeight={420}
       />
 
+      {CATEGORY_MISTAKE[challenge.category] && (
+        <CommonMistake to={CATEGORY_MISTAKE[challenge.category].to} linkLabel={CATEGORY_MISTAKE[challenge.category].link}>
+          {CATEGORY_MISTAKE[challenge.category].text}
+        </CommonMistake>
+      )}
+
       {/* Strong-candidate callout */}
       <div className="rounded-xl border border-flash/20 bg-flash/5 p-4">
         <p className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-flash">
@@ -117,6 +150,9 @@ function ChallengeDetail({ challenge, solved, onSolve, onBack }) {
       <Button variant={solved ? 'secondary' : 'primary'} onClick={onSolve} disabled={solved}>
         <CheckCircle2 size={16} /> {solved ? 'Marked as solved' : 'I solved this'}
       </Button>
+
+      {/* Teach-back: explain your approach in your own words. */}
+      <TeachBackPrompt topic={`How I'd build: ${challenge.title}`} type="challenge" />
     </PageTransition>
   )
 }
