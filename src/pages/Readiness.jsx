@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import {
   Radar as RadarIcon, ArrowRight, Dumbbell, Bug, Eye, Layers, Timer, Rocket,
+  FlaskConical, Target, GraduationCap, Repeat,
 } from 'lucide-react'
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
@@ -23,12 +24,15 @@ export default function Readiness() {
   const chartData = skills.map((s) => ({ axis: s.label, value: s.value }))
 
   const tiles = [
+    { icon: FlaskConical, label: 'Testing modules', value: `${counts.testingDone}/${totals.testingModules}`, link: '/testing/why-test' },
+    { icon: Target, label: 'TDD solved', value: `${counts.tddDone}/${totals.tdd}`, link: '/tdd' },
+    { icon: Eye, label: 'Internals explored', value: `${counts.internalsDone}/${totals.internals}`, link: '/under-the-hood' },
     { icon: Dumbbell, label: 'Challenges solved', value: `${counts.challengeDone}/${totals.challenges}`, link: '/challenges' },
     { icon: Bug, label: 'Bugs fixed', value: `${counts.debugDone}/${totals.debugging}`, link: '/debugging-gauntlet' },
-    { icon: Eye, label: 'Predict correct', value: `${counts.predictCorrect}/${totals.predict}`, link: '/predict-output' },
     { icon: Layers, label: 'Flashcards mastered', value: `${counts.flashGot}/${totals.flashcards}`, link: '/flashcards' },
-    { icon: Timer, label: 'Mock interviews', value: counts.interviewSessions, link: '/interview-simulator' },
-    { icon: Rocket, label: 'Capstone milestones', value: `${counts.capstoneDone}/${totals.capstone}`, link: '/capstone' },
+    { icon: Repeat, label: 'Reviews due', value: counts.dueCount, link: '/review' },
+    { icon: GraduationCap, label: 'Teach-backs', value: counts.teachBack, link: '/teach-back' },
+    { icon: Rocket, label: 'Capstone', value: `${counts.capstoneDone}/${totals.capstone}`, link: '/capstone' },
   ]
 
   const readinessLabel =
