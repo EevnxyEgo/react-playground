@@ -1,5 +1,7 @@
 # ⚛️ React Playground
 
+> **🔗 Live demo:** https://my-react-project-omega-two.vercel.app
+
 An interactive, **learn-by-doing** web app that takes you from your first React
 component all the way to **interview-ready**. Instead of just reading theory,
 you edit live code, *watch* components re-render, take quizzes, drill the
@@ -116,6 +118,27 @@ npm run preview
 ```
 
 > Requires Node 18+.
+
+---
+
+## ☁️ Deployment
+
+The app is deployed on **Vercel** at
+**https://my-react-project-omega-two.vercel.app**.
+
+It's a static Vite SPA, so deployment is zero-config beyond the included
+[`vercel.json`](./vercel.json), which sets the Vite preset and rewrites all
+non-asset routes to `/index.html` so client-side routes (e.g. `/learn/state`,
+`/testing/why-test`, `/readiness`) resolve on direct load and refresh.
+
+```bash
+# one-off production deploy from the project root
+npx vercel --prod
+```
+
+For continuous deploys, connect the repo in the Vercel dashboard — every push to
+the default branch then ships automatically. Any static host works too: run
+`npm run build` and serve `dist/` with an SPA fallback to `index.html`.
 
 ---
 
