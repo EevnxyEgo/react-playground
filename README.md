@@ -5,15 +5,20 @@ component all the way to **interview-ready**. Instead of just reading theory,
 you edit live code, *watch* components re-render, take quizzes, drill the
 decisions interviewers probe, debug broken code, and run timed mock interviews.
 
-Organized into three tracks:
+Organized into five tracks:
 
 1. **Foundations** — 19 learn-by-doing modules (the v1 course).
 2. **Interview Mastery** — decision trainers, a challenge library, a debugging
    gauntlet, predict-the-output, flashcards and a live interview simulator.
 3. **Capstone** — build your own portfolio site with shrinking scaffolding.
+4. **Testing Fundamentals** — Jest + React Testing Library with a *live
+   in-browser test runner*, reinforcement exercises and TDD mode.
+5. **Under the Hood** — a step-through Reconciliation Visualizer (virtual DOM
+   diffing, render vs commit, batching).
 
-…all feeding a **Confidence Dashboard** that scores your interview readiness
-across six skill axes.
+…plus a **Retention Engine** (unified spaced repetition + Today's Review +
+Teach-Back Journal) and a **Confidence Dashboard** that scores your readiness
+across eight skill axes.
 
 > Built as a real, incrementally-developed project. The app's own source code
 > doubles as a worked example of the concepts it teaches (its global state is a
@@ -61,7 +66,19 @@ across six skill axes.
 - **Confidence Dashboard** — a recharts **skill radar** across 6 axes driven by
   real activity, with a deep-linked "focus next" nudge.
 
-See [CHANGELOG.md](./CHANGELOG.md) for the full v2.0 breakdown.
+### Testing, Internals & Retention (v3.0)
+
+- **Testing Fundamentals** — 11 modules + TDD mode with a live `SandpackTests`
+  runner (no new dependency); core RTL APIs run live, `user-event` shown as
+  annotated best-practice.
+- **Under the Hood** — a reusable, data-driven `ReconciliationStepper` you step
+  through like a debugger (render phase diff → commit phase DOM touches).
+- **Retention Engine** — one shared `useSpacedRepetition` (Leitner) engine
+  feeding **Today's Review**, plus a **Teach-Back Journal** (Feynman technique).
+- **CommonMistake** callouts retrofitted inline across v1 modules and v2
+  challenges, cross-linking to the Debugging Gauntlet / Predict-the-Output.
+
+See [CHANGELOG.md](./CHANGELOG.md) for the full v2.0 and v3.0 breakdowns.
 
 ---
 
