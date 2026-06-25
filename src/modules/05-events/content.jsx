@@ -7,6 +7,7 @@ import { RenderFlashWrapper } from '../../components/learning/RenderFlashWrapper
 import { StateInspector } from '../../components/learning/StateInspector'
 import { Challenge } from '../../components/learning/Challenge'
 import { Quiz } from '../../components/learning/Quiz'
+import { CommonMistake } from '../../components/learning/CommonMistake'
 import { Button } from '../../components/ui/Button'
 
 /*
@@ -179,6 +180,10 @@ export default function App() {
           ]}
         />
       </Section>
+
+      <CommonMistake title="Common mistake: calling the handler in onClick" to="/debugging-gauntlet" linkLabel="See it misbehave">
+        {`onClick that CALLS the function runs it during render instead of on click. Pass the reference instead, or wrap it in an arrow to pass arguments.`}
+      </CommonMistake>
     </>
   )
 }

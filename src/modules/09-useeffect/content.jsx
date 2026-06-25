@@ -8,6 +8,7 @@ import { RenderFlashWrapper } from '../../components/learning/RenderFlashWrapper
 import { StateInspector } from '../../components/learning/StateInspector'
 import { Challenge } from '../../components/learning/Challenge'
 import { Quiz } from '../../components/learning/Quiz'
+import { CommonMistake } from '../../components/learning/CommonMistake'
 import { Button } from '../../components/ui/Button'
 
 /*
@@ -283,6 +284,10 @@ export default function App() {
           ]}
         />
       </Section>
+
+      <CommonMistake title="Common mistake: forgetting cleanup / wrong deps" to="/debugging-gauntlet" linkLabel="See the leak & loop bugs">
+        {`An effect that starts an interval, listener or subscription must return a cleanup, and its dependency array must be correct — otherwise you get leaks, duplicates, or stale closures.`}
+      </CommonMistake>
     </>
   )
 }

@@ -5,6 +5,7 @@ import { CodeBlock } from '../../components/learning/CodeBlock'
 import { CodePlayground } from '../../components/learning/CodePlayground'
 import { Challenge } from '../../components/learning/Challenge'
 import { Quiz } from '../../components/learning/Quiz'
+import { CommonMistake } from '../../components/learning/CommonMistake'
 import { Button } from '../../components/ui/Button'
 
 /*
@@ -226,6 +227,10 @@ export default function App() {
           ]}
         />
       </Section>
+
+      <CommonMistake title="Common mistake: a new context value every render" to="/debugging-gauntlet" linkLabel="Related re-render bugs">
+        {`Passing a freshly-built object as a Provider value creates a new reference each render, re-rendering every consumer. Memoize the value with useMemo.`}
+      </CommonMistake>
     </>
   )
 }

@@ -5,6 +5,7 @@ import { CodeBlock } from '../../components/learning/CodeBlock'
 import { CodePlayground } from '../../components/learning/CodePlayground'
 import { Challenge } from '../../components/learning/Challenge'
 import { Quiz } from '../../components/learning/Quiz'
+import { CommonMistake } from '../../components/learning/CommonMistake'
 import { useRenderFlash } from '../../hooks/useRenderFlash'
 import { Button } from '../../components/ui/Button'
 
@@ -206,6 +207,10 @@ export default function App() {
           ]}
         />
       </Section>
+
+      <CommonMistake title="Common mistake: inline props defeat React.memo" to="/predict-output" linkLabel="Predict: object identity">
+        {`Passing an inline object or arrow function as a prop to a memoized child makes a new reference every render, so memo never skips. Memoize them with useMemo/useCallback.`}
+      </CommonMistake>
     </>
   )
 }

@@ -8,6 +8,7 @@ import { RenderFlashWrapper } from '../../components/learning/RenderFlashWrapper
 import { StateInspector } from '../../components/learning/StateInspector'
 import { Challenge } from '../../components/learning/Challenge'
 import { Quiz } from '../../components/learning/Quiz'
+import { CommonMistake } from '../../components/learning/CommonMistake'
 import { Button } from '../../components/ui/Button'
 
 /*
@@ -284,6 +285,10 @@ export default function App() {
           ]}
         />
       </Section>
+
+      <CommonMistake title="Common mistake: setCount(count + 1) twice" to="/predict-output" linkLabel="Predict the output">
+        {`Calling setCount(count + 1) twice in one handler does NOT add 2 — both reads see the same stale count. Use the updater form setCount(c => c + 1).`}
+      </CommonMistake>
     </>
   )
 }

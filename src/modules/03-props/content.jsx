@@ -6,6 +6,7 @@ import { CodePlayground } from '../../components/learning/CodePlayground'
 import { RenderFlashWrapper } from '../../components/learning/RenderFlashWrapper'
 import { Challenge } from '../../components/learning/Challenge'
 import { Quiz } from '../../components/learning/Quiz'
+import { CommonMistake } from '../../components/learning/CommonMistake'
 
 /*
  * Module 3 — Props.
@@ -186,6 +187,10 @@ export default function App() {
           ]}
         />
       </Section>
+
+      <CommonMistake title="Common mistake: mutating props" to="/debugging-gauntlet" linkLabel="See the state-mutation bug">
+        {`Never modify a prop inside a child (e.g. props.items.push(...)). Props are read-only; mutating them won't re-render and corrupts the parent's data — copy instead.`}
+      </CommonMistake>
     </>
   )
 }

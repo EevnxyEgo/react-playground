@@ -6,6 +6,7 @@ import { CodePlayground } from '../../components/learning/CodePlayground'
 import { RenderFlashWrapper } from '../../components/learning/RenderFlashWrapper'
 import { Challenge } from '../../components/learning/Challenge'
 import { Quiz } from '../../components/learning/Quiz'
+import { CommonMistake } from '../../components/learning/CommonMistake'
 import { Button } from '../../components/ui/Button'
 
 /*
@@ -165,6 +166,10 @@ export default function App() {
           ]}
         />
       </Section>
+
+      <CommonMistake title="Common mistake: the falsy-0 render" to="/debugging-gauntlet" linkLabel="See the bug">
+        {`When a count is 0, a logical-AND render shows a literal 0 on screen (0 is falsy and returned as-is). Guard with count greater than 0, or use a ternary.`}
+      </CommonMistake>
     </>
   )
 }

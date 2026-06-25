@@ -6,6 +6,7 @@ import { CodePlayground } from '../../components/learning/CodePlayground'
 import { RenderFlashWrapper } from '../../components/learning/RenderFlashWrapper'
 import { Challenge } from '../../components/learning/Challenge'
 import { Quiz } from '../../components/learning/Quiz'
+import { CommonMistake } from '../../components/learning/CommonMistake'
 import { Button } from '../../components/ui/Button'
 
 /*
@@ -179,6 +180,10 @@ export default function App() {
           ]}
         />
       </Section>
+
+      <CommonMistake title="Common mistake: expecting a ref to re-render" to="/predict-output" linkLabel="Predict: ref vs state">
+        {`Mutating ref.current never triggers a re-render. If the screen should update when the value changes, use state — a ref is for values that persist silently.`}
+      </CommonMistake>
     </>
   )
 }

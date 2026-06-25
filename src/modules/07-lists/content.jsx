@@ -5,6 +5,7 @@ import { CodeBlock } from '../../components/learning/CodeBlock'
 import { CodePlayground } from '../../components/learning/CodePlayground'
 import { Challenge } from '../../components/learning/Challenge'
 import { Quiz } from '../../components/learning/Quiz'
+import { CommonMistake } from '../../components/learning/CommonMistake'
 import { Button } from '../../components/ui/Button'
 
 /*
@@ -196,6 +197,10 @@ function List() {
           ]}
         />
       </Section>
+
+      <CommonMistake title="Common mistake: array index as key" to="/debugging-gauntlet" linkLabel="Reproduce the index-key bug">
+        {`Using the array index as a key on a reorderable list makes React reuse the wrong nodes — lost input/focus and subtle bugs. Use a stable id from your data.`}
+      </CommonMistake>
     </>
   )
 }

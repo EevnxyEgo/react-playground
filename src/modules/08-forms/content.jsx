@@ -8,6 +8,7 @@ import { RenderFlashWrapper } from '../../components/learning/RenderFlashWrapper
 import { StateInspector } from '../../components/learning/StateInspector'
 import { Challenge } from '../../components/learning/Challenge'
 import { Quiz } from '../../components/learning/Quiz'
+import { CommonMistake } from '../../components/learning/CommonMistake'
 
 /*
  * Module 8 — Forms & Controlled Components.
@@ -202,6 +203,10 @@ export default function App() {
           ]}
         />
       </Section>
+
+      <CommonMistake title="Common mistake: value without onChange" to="/debugging-gauntlet" linkLabel="Related: state-mutation bug">
+        {`A controlled value with no onChange creates a read-only input you can't type into. Always pair value with onChange (or use defaultValue for an uncontrolled input).`}
+      </CommonMistake>
     </>
   )
 }
