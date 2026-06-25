@@ -34,6 +34,16 @@ import {
   Zap,
   GraduationCap,
   HelpCircle,
+  // v2 — Interview Mastery / Capstone / Readiness nav
+  Map,
+  LayoutDashboard,
+  Dumbbell,
+  Bug,
+  Eye,
+  Layers,
+  Timer,
+  Rocket,
+  Target,
 } from 'lucide-react'
 
 export const iconMap = {
@@ -65,6 +75,15 @@ export const iconMap = {
   Flag,
   Zap,
   GraduationCap,
+  Map,
+  LayoutDashboard,
+  Dumbbell,
+  Bug,
+  Eye,
+  Layers,
+  Timer,
+  Rocket,
+  Target,
 }
 
 // Resolve a name → component, falling back to a neutral icon.

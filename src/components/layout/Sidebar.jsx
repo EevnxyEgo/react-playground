@@ -8,25 +8,39 @@ import {
   Trophy,
   Atom,
   X,
+  Gauge,
 } from 'lucide-react'
 import { modulesList, CATEGORIES } from '../../data/modulesList'
+import { interviewPages } from '../../data/v2meta'
 import { getIcon } from '../../lib/icons'
 import { useProgress } from '../../hooks/useProgress'
 import { ProgressBar } from './ProgressBar'
 import { cn } from '../../lib/cn'
 
 /*
- * Sidebar — primary navigation.
- *   - Search filters the module list live.
- *   - Each module shows a completion checkmark (from global progress).
- *   - Grouped by category to give the curriculum a sense of structure.
- *   - On desktop it's a fixed rail; on mobile it slides in as a drawer.
+ * Sidebar — primary navigation, organized into the three v2 tracks:
+ *   Foundations (v1 modules) · Interview Mastery · Capstone
+ * plus a persistent Readiness Dashboard link with a live readiness %.
+ * Search filters the Foundations module list.
  */
+const navLinkClass = ({ isActive }) =>
+  cn(
+    'group flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-colors focus-ring',
+    isActive ? 'bg-accent/15 text-accent' : 'text-content hover:bg-line/5',
+  )
+
+function TrackLabel({ children }) {
+  return (
+    <p className="px-2 pb-1 pt-3 text-[11px] font-bold uppercase tracking-wider text-content-faint">
+      {children}
+    </p>
+  )
+}
+
 export function Sidebar({ open, onClose }) {
-  const { isComplete, stats } = useProgress()
+  const { isComplete, stats, v2 } = useProgress()
   const [query, setQuery] = useState('')
 
-  // Filter once per query change. Keeps category grouping intact.
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) return modulesList
@@ -40,7 +54,6 @@ export function Sidebar({ open, onClose }) {
 
   return (
     <>
-      {/* Mobile backdrop */}
       <div
         className={cn(
           'fixed inset-0 z-30 bg-black/60 backdrop-blur-sm transition-opacity lg:hidden',
@@ -76,22 +89,34 @@ export function Sidebar({ open, onClose }) {
           </button>
         </div>
 
-        {/* Overall progress */}
-        <div className="px-5 pb-3">
-          <div className="mb-1 flex items-center justify-between text-xs text-content-muted">
-            <span>Progress</span>
-            <span className="font-mono text-accent">{stats.percent}%</span>
-          </div>
-          <ProgressBar value={stats.percent} />
+        {/* Persistent Readiness summary */}
+        <div className="px-3">
+          <NavLink
+            to="/readiness"
+            onClick={onClose}
+            className={({ isActive }) =>
+              cn(
+                'block rounded-xl border p-3 transition-colors focus-ring',
+                isActive
+                  ? 'border-accent/50 bg-accent/10'
+                  : 'border-line/10 bg-surface-800/60 hover:border-accent/30',
+              )
+            }
+          >
+            <div className="mb-1 flex items-center justify-between text-xs">
+              <span className="flex items-center gap-1.5 font-semibold text-content-strong">
+                <Gauge size={14} className="text-accent" /> Interview Readiness
+              </span>
+              <span className="font-mono text-accent">{v2.readiness}%</span>
+            </div>
+            <ProgressBar value={v2.readiness} />
+          </NavLink>
         </div>
 
         {/* Search */}
-        <div className="px-5 pb-2">
+        <div className="px-3 pt-3 pb-1">
           <div className="relative">
-            <Search
-              size={15}
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-content-faint"
-            />
+            <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-content-faint" />
             <input
               type="text"
               value={query}
@@ -102,14 +127,16 @@ export function Sidebar({ open, onClose }) {
           </div>
         </div>
 
-        {/* Module list */}
-        <nav className="flex-1 overflow-y-auto px-3 py-2">
+        {/* Tracks */}
+        <nav className="flex-1 overflow-y-auto px-3 py-1">
+          {/* Track 1 — Foundations */}
+          <TrackLabel>Foundations</TrackLabel>
           {CATEGORIES.map((cat) => {
             const items = filtered.filter((m) => m.category === cat)
             if (items.length === 0) return null
             return (
-              <div key={cat} className="mb-3">
-                <p className="px-2 pb-1 text-[11px] font-semibold uppercase tracking-wider text-content-faint">
+              <div key={cat} className="mb-1">
+                <p className="px-2 pb-0.5 pt-1.5 text-[10px] font-semibold uppercase tracking-wider text-content-faint/70">
                   {cat}
                 </p>
                 <ul className="space-y-0.5">
@@ -118,29 +145,16 @@ export function Sidebar({ open, onClose }) {
                     const done = isComplete(m.id)
                     return (
                       <li key={m.id}>
-                        <NavLink
-                          to={`/learn/${m.id}`}
-                          onClick={onClose}
-                          className={({ isActive }) =>
-                            cn(
-                              'group flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-colors focus-ring',
-                              isActive
-                                ? 'bg-accent/15 text-accent'
-                                : 'text-content hover:bg-line/5',
-                            )
-                          }
-                        >
+                        <NavLink to={`/learn/${m.id}`} onClick={onClose} className={navLinkClass}>
                           <Icon size={16} className="shrink-0 opacity-80" />
                           <span className="flex-1 truncate">
-                            <span className="mr-1 font-mono text-xs text-content-faint">
-                              {m.num}
-                            </span>
+                            <span className="mr-1 font-mono text-xs text-content-faint">{m.num}</span>
                             {m.title}
                           </span>
                           {done ? (
                             <CheckCircle2 size={15} className="shrink-0 text-emerald-400" />
                           ) : (
-                            <Circle size={15} className="shrink-0 text-content-faint" />
+                            <Circle size={15} className="shrink-0 text-content-faint/50" />
                           )}
                         </NavLink>
                       </li>
@@ -151,36 +165,44 @@ export function Sidebar({ open, onClose }) {
             )
           })}
           {filtered.length === 0 && (
-            <p className="px-3 py-6 text-center text-sm text-content-faint">
+            <p className="px-3 py-3 text-center text-sm text-content-faint">
               No modules match “{query}”.
             </p>
           )}
+
+          {/* Track 2 — Interview Mastery */}
+          <TrackLabel>Interview Mastery</TrackLabel>
+          <ul className="space-y-0.5">
+            {interviewPages.map((p) => {
+              const Icon = getIcon(p.icon)
+              return (
+                <li key={p.id}>
+                  <NavLink to={`/${p.id}`} onClick={onClose} className={navLinkClass}>
+                    <Icon size={16} className="shrink-0 opacity-80" />
+                    <span className="flex-1 truncate">{p.title}</span>
+                  </NavLink>
+                </li>
+              )
+            })}
+          </ul>
+
+          {/* Track 3 — Capstone */}
+          <TrackLabel>Capstone</TrackLabel>
+          <NavLink to="/capstone" onClick={onClose} className={navLinkClass}>
+            {(() => {
+              const Icon = getIcon('Rocket')
+              return <Icon size={16} className="shrink-0 opacity-80" />
+            })()}
+            <span className="flex-1 truncate">Build Your Portfolio</span>
+          </NavLink>
         </nav>
 
-        {/* Footer links */}
+        {/* Footer */}
         <div className="border-t border-line/10 p-3">
-          <NavLink
-            to="/sandbox"
-            onClick={onClose}
-            className={({ isActive }) =>
-              cn(
-                'flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-colors focus-ring',
-                isActive ? 'bg-accent/15 text-accent' : 'text-content hover:bg-line/5',
-              )
-            }
-          >
+          <NavLink to="/sandbox" onClick={onClose} className={navLinkClass}>
             <FlaskConical size={16} /> Free Sandbox
           </NavLink>
-          <NavLink
-            to="/progress"
-            onClick={onClose}
-            className={({ isActive }) =>
-              cn(
-                'flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-colors focus-ring',
-                isActive ? 'bg-accent/15 text-accent' : 'text-content hover:bg-line/5',
-              )
-            }
-          >
+          <NavLink to="/progress" onClick={onClose} className={navLinkClass}>
             <Trophy size={16} /> Progress & Badges
           </NavLink>
         </div>
