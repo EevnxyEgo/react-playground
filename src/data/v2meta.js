@@ -12,6 +12,10 @@ export const V2_TOTALS = {
   predict: 12,
   flashcards: 16,
   capstone: 8,
+  // v3
+  testingModules: 11,
+  tdd: 4,
+  internals: 4,
 }
 
 // Module-id groupings that feed the readiness radar's module-driven axes.

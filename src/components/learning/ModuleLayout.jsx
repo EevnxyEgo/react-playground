@@ -11,19 +11,34 @@ import { Badge } from '../ui/Badge'
 import { PageTransition } from '../layout/PageTransition'
 
 /*
- * ModuleLayout — the consistent chrome around every module's content:
- *   - header (number, title, category + feature badges)
- *   - a "Mark complete" toggle that awards XP
- *   - prev/next navigation
- * It also provides ModuleContext so quizzes/challenges can key their progress.
+ * ModuleLayout — the consistent chrome around any module's content (header,
+ * mark-complete + XP, prev/next nav). It also provides ModuleContext so nested
+ * quizzes/challenges can key their progress.
+ *
+ * Defaults to the Foundations track (v1). Other tracks (e.g. Testing) override
+ * completion + adjacency + base path via props, so the same layout is reused
+ * everywhere instead of duplicated.
  */
-export function ModuleLayout({ meta, children }) {
+export function ModuleLayout({
+  meta,
+  children,
+  isDone, // optional override (bool)
+  onToggleDone, // optional override (fn)
+  prev, // optional override ({ id, title })
+  next, // optional override ({ id, title })
+  basePath = '/learn',
+  xpAmount = 50,
+}) {
   const { isComplete, toggleComplete } = useProgress()
-  const done = isComplete(meta.id)
-  const { prev, next } = getAdjacentModules(meta.id)
+  const done = isDone !== undefined ? isDone : isComplete(meta.id)
+  const toggle = onToggleDone || (() => toggleComplete(meta.id))
+
+  // Adjacency: use overrides if provided, else fall back to Foundations list.
+  const usingOverride = prev !== undefined || next !== undefined
+  const adj = usingOverride ? { prev: prev || null, next: next || null } : getAdjacentModules(meta.id)
+
   const Icon = getIcon(meta.icon)
 
-  // Scroll to top whenever the module changes — nicer than landing mid-page.
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' })
   }, [meta.id])
@@ -31,7 +46,6 @@ export function ModuleLayout({ meta, children }) {
   return (
     <ModuleContext.Provider value={{ slug: meta.id, meta }}>
       <PageTransition className="space-y-8 pb-12">
-        {/* Header */}
         <header className="space-y-3">
           <div className="flex flex-wrap items-center gap-2 text-sm">
             <Badge tone="muted">{meta.category}</Badge>
@@ -60,10 +74,8 @@ export function ModuleLayout({ meta, children }) {
           </div>
         </header>
 
-        {/* Body (the 6 layers) */}
         <div className="space-y-10">{children}</div>
 
-        {/* Mark complete */}
         <motion.div
           className="rounded-xl border border-line/10 bg-surface-900 p-5"
           initial={{ opacity: 0 }}
@@ -80,32 +92,28 @@ export function ModuleLayout({ meta, children }) {
                   : 'Mark it complete to earn XP and track your progress.'}
               </p>
             </div>
-            <Button
-              variant={done ? 'secondary' : 'primary'}
-              onClick={() => toggleComplete(meta.id)}
-            >
+            <Button variant={done ? 'secondary' : 'primary'} onClick={toggle}>
               {done ? <Circle size={16} /> : <CheckCircle2 size={16} />}
-              {done ? 'Mark as not done' : 'Mark complete (+50 XP)'}
+              {done ? 'Mark as not done' : `Mark complete (+${xpAmount} XP)`}
             </Button>
           </div>
         </motion.div>
 
-        {/* Prev / Next */}
         <nav className="flex items-center justify-between gap-3">
-          {prev ? (
-            <Link to={`/learn/${prev.id}`} className="flex-1">
+          {adj.prev ? (
+            <Link to={`${basePath}/${adj.prev.id}`} className="flex-1">
               <Button variant="ghost" className="w-full justify-start">
                 <ArrowLeft size={16} />
-                <span className="truncate text-left">{prev.title}</span>
+                <span className="truncate text-left">{adj.prev.title}</span>
               </Button>
             </Link>
           ) : (
             <span className="flex-1" />
           )}
-          {next ? (
-            <Link to={`/learn/${next.id}`} className="flex-1">
+          {adj.next ? (
+            <Link to={`${basePath}/${adj.next.id}`} className="flex-1">
               <Button variant="secondary" className="w-full justify-end">
-                <span className="truncate text-right">{next.title}</span>
+                <span className="truncate text-right">{adj.next.title}</span>
                 <ArrowRight size={16} />
               </Button>
             </Link>

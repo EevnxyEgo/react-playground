@@ -4,45 +4,67 @@ import { badges as badgeDefs } from '../data/badges'
 import { V2_TOTALS, SKILL_MODULES } from '../data/v2meta'
 
 /*
- * AppContext — the app's global brain, written from scratch with
- * useReducer + Context (no Redux/Zustand on purpose). This file is itself a
- * worked example of the patterns taught in Module 11 (useContext) and
- * Module 12 (useReducer).
+ * AppContext — the app's global brain (useReducer + Context, no external lib).
  *
- * v1 tracked: theme, completed modules, quiz answers, challenge checkboxes.
- * v2.0 extends the SAME store (not a second system) with Interview-Mastery
- * metrics: hook-engine answers, architecture drills, challenge solves, debugging
- * fixes, predict-the-output answers, flashcard recall, interview sessions and
- * capstone milestones. From all of this we derive a 6-axis skill radar.
+ *  v1: theme, completed modules, quiz answers, mini-challenge checkboxes.
+ *  v2: Interview-Mastery metrics + a derived skill radar.
+ *  v3: Testing track completion, TDD solves, Under-the-Hood scenarios, a unified
+ *      spaced-repetition engine (srs), and a Teach-Back journal. The radar gains
+ *      Testing and Internals axes; Communication now also counts teach-backs.
+ *
+ * Everything stays in ONE store (same localStorage key) so all prior progress
+ * survives upgrades.
  */
 
-// ---- XP economy -----------------------------------------------------------
-export const XP = {
-  module: 50, // marking a module complete
-  quiz: 20, // each correct quiz question
-  challenge: 30, // each completed mini-challenge
-}
+export const XP = { module: 50, quiz: 20, challenge: 30 }
 
-const STORAGE_KEY = 'react-playground:v1' // kept stable so v1 progress survives
+const STORAGE_KEY = 'react-playground:v1'
+
+// ---- Spaced-repetition schedule (shared engine, see useSpacedRepetition) ----
+const DAY = 86400000
+const SRS_INTERVALS = [3 * DAY, 7 * DAY, 21 * DAY, 45 * DAY]
+
+function srsKey(type, itemId) {
+  return `${type}:${itemId}`
+}
+function seedSrs(srs, type, itemId, now) {
+  const key = srsKey(type, itemId)
+  if (srs[key]) return srs
+  return { ...srs, [key]: { type, itemId, lastReviewedAt: now, nextDueAt: now + SRS_INTERVALS[0], strength: 0 } }
+}
+function reviewSrs(srs, type, itemId, success, now) {
+  const key = srsKey(type, itemId)
+  const prev = srs[key]
+  const strength = success ? Math.min((prev?.strength ?? 0) + 1, SRS_INTERVALS.length - 1) : 0
+  return {
+    ...srs,
+    [key]: { type, itemId, lastReviewedAt: now, nextDueAt: now + SRS_INTERVALS[strength], strength },
+  }
+}
 
 const initialState = {
   theme: 'dark',
   // v1
-  completed: {}, // { [moduleId]: true }
-  quizCorrect: {}, // { [questionKey]: true }
-  challengesDone: {}, // { [moduleId]: true }
-  // v2 — Interview Mastery
-  hookEngine: {}, // { [scenarioId]: { correct: bool } }
-  architecture: {}, // { [mockupId]: true }
-  challengeSolves: {}, // { [challengeId]: true }
-  debugFixed: {}, // { [bugId]: true }
-  predict: {}, // { [predictId]: { correct: bool } }
-  flashcards: {}, // { [cardId]: 'got' | 'review' }
-  interviewSessions: [], // [{ id, challengeId, title, clarifying, plan, selfReview, date }]
-  capstone: {}, // { [milestoneId]: true }
+  completed: {},
+  quizCorrect: {},
+  challengesDone: {},
+  // v2
+  hookEngine: {},
+  architecture: {},
+  challengeSolves: {},
+  debugFixed: {},
+  predict: {},
+  flashcards: {}, // legacy status cache; scheduling now lives in `srs`
+  interviewSessions: [],
+  capstone: {},
+  // v3
+  testingDone: {}, // { [testingModuleId]: true }
+  tddSolved: {}, // { [tddId]: true }
+  internalsDone: {}, // { [scenarioId]: true }
+  teachBack: [], // [{ id, topic, type, text, date }]
+  srs: {}, // { [type:itemId]: { type, itemId, lastReviewedAt, nextDueAt, strength } }
 }
 
-// ---- Reducer --------------------------------------------------------------
 function reducer(state, action) {
   switch (action.type) {
     case 'HYDRATE':
@@ -53,7 +75,7 @@ function reducer(state, action) {
     case 'TOGGLE_THEME':
       return { ...state, theme: state.theme === 'dark' ? 'light' : 'dark' }
 
-    // ---- v1 modules / quizzes / mini-challenges ----
+    // ---- v1 ----
     case 'COMPLETE_MODULE':
       if (state.completed[action.moduleId]) return state
       return { ...state, completed: { ...state.completed, [action.moduleId]: true } }
@@ -62,9 +84,16 @@ function reducer(state, action) {
       delete next[action.moduleId]
       return { ...state, completed: next }
     }
-    case 'MARK_QUIZ_CORRECT':
+    case 'MARK_QUIZ_CORRECT': {
       if (state.quizCorrect[action.key]) return state
-      return { ...state, quizCorrect: { ...state.quizCorrect, [action.key]: true } }
+      // Seed a spaced-repetition review for this module's quiz (key = "slug:qid").
+      const slug = String(action.key).split(':')[0]
+      return {
+        ...state,
+        quizCorrect: { ...state.quizCorrect, [action.key]: true },
+        srs: seedSrs(state.srs, 'quiz', slug, Date.now()),
+      }
+    }
     case 'MARK_CHALLENGE_DONE':
       if (state.challengesDone[action.moduleId]) return state
       return { ...state, challengesDone: { ...state.challengesDone, [action.moduleId]: true } }
@@ -75,23 +104,27 @@ function reducer(state, action) {
       return { ...state, challengesDone: next }
     }
 
-    // ---- v2 Interview Mastery ----
+    // ---- v2 ----
     case 'HOOK_ANSWER':
-      // keep the best result (once correct, stays correct)
       if (state.hookEngine[action.id]?.correct) return state
-      return {
-        ...state,
-        hookEngine: { ...state.hookEngine, [action.id]: { correct: action.correct } },
-      }
+      return { ...state, hookEngine: { ...state.hookEngine, [action.id]: { correct: action.correct } } }
     case 'ARCH_COMPLETE':
       if (state.architecture[action.id]) return state
       return { ...state, architecture: { ...state.architecture, [action.id]: true } }
     case 'CHALLENGE_SOLVE':
       if (state.challengeSolves[action.id]) return state
-      return { ...state, challengeSolves: { ...state.challengeSolves, [action.id]: true } }
+      return {
+        ...state,
+        challengeSolves: { ...state.challengeSolves, [action.id]: true },
+        srs: seedSrs(state.srs, 'challenge', action.id, Date.now()),
+      }
     case 'DEBUG_FIXED':
       if (state.debugFixed[action.id]) return state
-      return { ...state, debugFixed: { ...state.debugFixed, [action.id]: true } }
+      return {
+        ...state,
+        debugFixed: { ...state.debugFixed, [action.id]: true },
+        srs: seedSrs(state.srs, 'debug', action.id, Date.now()),
+      }
     case 'PREDICT_ANSWER':
       if (state.predict[action.id]?.correct) return state
       return { ...state, predict: { ...state.predict, [action.id]: { correct: action.correct } } }
@@ -105,6 +138,26 @@ function reducer(state, action) {
       else next[action.id] = true
       return { ...state, capstone: next }
     }
+
+    // ---- v3 ----
+    case 'TESTING_TOGGLE': {
+      const next = { ...state.testingDone }
+      if (next[action.id]) delete next[action.id]
+      else next[action.id] = true
+      return { ...state, testingDone: next }
+    }
+    case 'TDD_SOLVE':
+      if (state.tddSolved[action.id]) return state
+      return { ...state, tddSolved: { ...state.tddSolved, [action.id]: true } }
+    case 'INTERNALS_DONE':
+      if (state.internalsDone[action.id]) return state
+      return { ...state, internalsDone: { ...state.internalsDone, [action.id]: true } }
+    case 'TEACHBACK_SAVE':
+      return { ...state, teachBack: [action.entry, ...state.teachBack] }
+    case 'SRS_SEED':
+      return { ...state, srs: seedSrs(state.srs, action.srsType, action.itemId, action.now) }
+    case 'SRS_REVIEW':
+      return { ...state, srs: reviewSrs(state.srs, action.srsType, action.itemId, action.success, action.now) }
 
     case 'RESET_PROGRESS':
       return { ...initialState, theme: state.theme }
@@ -127,7 +180,6 @@ function init(base) {
 
 const AppContext = createContext(null)
 
-// Is an interview session "substantive" (used by the Communication skill axis)?
 function isSubstantive(s) {
   const ok = (t) => typeof t === 'string' && t.trim().length >= 12
   return ok(s.clarifying) && ok(s.plan)
@@ -140,7 +192,7 @@ export function AppProvider({ children }) {
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
     } catch {
-      /* storage unavailable — ignore */
+      /* ignore */
     }
   }, [state])
 
@@ -150,7 +202,6 @@ export function AppProvider({ children }) {
     root.style.colorScheme = state.theme
   }, [state.theme])
 
-  // ---- Derived stats (v1) -------------------------------------------------
   const stats = useMemo(() => {
     const modulesDone = Object.keys(state.completed).length
     const quizCorrect = Object.keys(state.quizCorrect).length
@@ -166,16 +217,8 @@ export function AppProvider({ children }) {
 
     const level = Math.floor(xp / 150) + 1
     return {
-      modulesDone,
-      totalModules: TOTAL_MODULES,
-      quizCorrect,
-      challengesDone,
-      xp,
-      percent,
-      level,
-      xpIntoLevel: xp % 150,
-      xpForLevel: 150,
-      categoriesComplete,
+      modulesDone, totalModules: TOTAL_MODULES, quizCorrect, challengesDone,
+      xp, percent, level, xpIntoLevel: xp % 150, xpForLevel: 150, categoriesComplete,
     }
   }, [state.completed, state.quizCorrect, state.challengesDone])
 
@@ -184,18 +227,17 @@ export function AppProvider({ children }) {
     [stats],
   )
 
-  // ---- Derived v2 metrics + skill radar ----------------------------------
   const v2 = useMemo(() => {
     const moduleAvg = (ids) => {
       if (ids.length === 0) return 0
       const done = ids.filter((id) => state.completed[id]).length
       return (done / ids.length) * 100
     }
+    const pct = (n, total) => Math.round(Math.min(100, total ? (n / total) * 100 : 0))
 
     const hookAnswered = Object.keys(state.hookEngine).length
     const hookCorrect = Object.values(state.hookEngine).filter((v) => v.correct).length
     const hookAccuracy = hookAnswered ? (hookCorrect / hookAnswered) * 100 : 0
-    // require some volume before accuracy counts at full weight
     const hookConfidence = hookAccuracy * Math.min(1, hookAnswered / 8)
 
     const archDone = Object.keys(state.architecture).length
@@ -203,50 +245,47 @@ export function AppProvider({ children }) {
     const challengeDone = Object.keys(state.challengeSolves).length
     const predictAnswered = Object.keys(state.predict).length
     const predictCorrect = Object.values(state.predict).filter((v) => v.correct).length
-    const flashGot = Object.values(state.flashcards).filter((v) => v === 'got').length
-    const flashReviewed = Object.keys(state.flashcards).length
     const substantiveSessions = state.interviewSessions.filter(isSubstantive).length
     const capstoneDone = Object.keys(state.capstone).length
 
-    const pct = (n, total) => Math.round(Math.min(100, total ? (n / total) * 100 : 0))
+    // v3 counts
+    const testingDone = Object.keys(state.testingDone).length
+    const tddDone = Object.keys(state.tddSolved).length
+    const internalsDone = Object.keys(state.internalsDone).length
+    const teachBackSubstantive = state.teachBack.filter((e) => (e.text || '').trim().length >= 40).length
 
-    // Six radar axes (0–100), each from real activity (Section 10).
+    // Flashcards mastery now derives from the shared SRS engine.
+    const flashItems = Object.values(state.srs).filter((s) => s.type === 'flashcard')
+    const flashGot = flashItems.filter((s) => s.strength >= 2).length
+    const flashReviewed = flashItems.length
+    const dueCount = Object.values(state.srs).filter((s) => s.nextDueAt <= Date.now()).length
+
+    const testingScore = Math.round(0.7 * pct(testingDone, V2_TOTALS.testingModules) + 0.3 * pct(tddDone, V2_TOTALS.tdd))
+    const communicationRaw = substantiveSessions + teachBackSubstantive
+
     const skills = [
       { key: 'componentsJsx', label: 'Components & JSX', value: Math.round(moduleAvg(SKILL_MODULES.componentsJsx)), link: '/learn/components' },
       { key: 'stateProps', label: 'State & Props', value: Math.round(moduleAvg(SKILL_MODULES.stateProps)), link: '/learn/state' },
-      {
-        key: 'hooks',
-        label: 'Hooks Mastery',
-        value: Math.round(0.45 * moduleAvg(SKILL_MODULES.hooks) + 0.55 * hookConfidence),
-        link: '/hook-decision-engine',
-      },
+      { key: 'hooks', label: 'Hooks Mastery', value: Math.round(0.45 * moduleAvg(SKILL_MODULES.hooks) + 0.55 * hookConfidence), link: '/hook-decision-engine' },
       { key: 'architecture', label: 'Architecture', value: pct(archDone, V2_TOTALS.architecture), link: '/architecture-trainer' },
       { key: 'debugging', label: 'Debugging', value: pct(debugDone, V2_TOTALS.debugging), link: '/debugging-gauntlet' },
-      { key: 'communication', label: 'Communication', value: pct(substantiveSessions, 3), link: '/interview-simulator' },
+      { key: 'testing', label: 'Testing', value: testingScore, link: '/testing/why-test' },
+      { key: 'internals', label: 'Internals', value: pct(internalsDone, V2_TOTALS.internals), link: '/under-the-hood' },
+      { key: 'communication', label: 'Communication', value: pct(communicationRaw, 5), link: '/interview-simulator' },
     ]
 
     const readiness = Math.round(skills.reduce((s, a) => s + a.value, 0) / skills.length)
     const weakest = [...skills].sort((a, b) => a.value - b.value)[0]
 
     return {
-      skills,
-      readiness,
-      weakest,
+      skills, readiness, weakest, totals: V2_TOTALS,
       counts: {
-        hookAnswered,
-        hookCorrect,
-        archDone,
-        debugDone,
-        challengeDone,
-        predictAnswered,
-        predictCorrect,
-        flashGot,
-        flashReviewed,
-        interviewSessions: state.interviewSessions.length,
-        substantiveSessions,
-        capstoneDone,
+        hookAnswered, hookCorrect, archDone, debugDone, challengeDone,
+        predictAnswered, predictCorrect, flashGot, flashReviewed,
+        interviewSessions: state.interviewSessions.length, substantiveSessions,
+        capstoneDone, testingDone, tddDone, internalsDone,
+        teachBack: state.teachBack.length, teachBackSubstantive, dueCount,
       },
-      totals: V2_TOTALS,
     }
   }, [state])
 

@@ -44,6 +44,20 @@ export function useProgress() {
     isCapstoneDone: (id) => Boolean(state.capstone[id]),
     toggleCapstone: (id) => dispatch({ type: 'CAPSTONE_TOGGLE', id }),
 
+    // ---- v3 ----
+    // Testing Fundamentals track
+    isTestingDone: (id) => Boolean(state.testingDone[id]),
+    toggleTesting: (id) => dispatch({ type: 'TESTING_TOGGLE', id }),
+    // TDD mode
+    isTddSolved: (id) => Boolean(state.tddSolved[id]),
+    solveTdd: (id) => dispatch({ type: 'TDD_SOLVE', id }),
+    // Under the Hood scenarios
+    isInternalsDone: (id) => Boolean(state.internalsDone[id]),
+    completeInternals: (id) => dispatch({ type: 'INTERNALS_DONE', id }),
+    // Teach-Back journal
+    teachBack: state.teachBack,
+    saveTeachBack: (entry) => dispatch({ type: 'TEACHBACK_SAVE', entry }),
+
     // theme
     theme: state.theme,
     isDark: state.theme === 'dark',
