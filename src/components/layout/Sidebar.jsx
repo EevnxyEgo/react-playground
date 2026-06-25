@@ -9,9 +9,11 @@ import {
   Atom,
   X,
   Gauge,
+  Repeat,
 } from 'lucide-react'
 import { modulesList, CATEGORIES } from '../../data/modulesList'
 import { interviewPages } from '../../data/v2meta'
+import { testingModules } from '../../data/testingModules'
 import { getIcon } from '../../lib/icons'
 import { useProgress } from '../../hooks/useProgress'
 import { ProgressBar } from './ProgressBar'
@@ -38,7 +40,7 @@ function TrackLabel({ children }) {
 }
 
 export function Sidebar({ open, onClose }) {
-  const { isComplete, stats, v2 } = useProgress()
+  const { isComplete, isTestingDone, stats, v2 } = useProgress()
   const [query, setQuery] = useState('')
 
   const filtered = useMemo(() => {
@@ -110,6 +112,26 @@ export function Sidebar({ open, onClose }) {
               <span className="font-mono text-accent">{v2.readiness}%</span>
             </div>
             <ProgressBar value={v2.readiness} />
+          </NavLink>
+
+          {/* Persistent Today's Review */}
+          <NavLink
+            to="/review"
+            onClick={onClose}
+            className={({ isActive }) =>
+              cn(
+                'mt-2 flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-colors focus-ring',
+                isActive ? 'bg-accent/15 text-accent' : 'text-content hover:bg-line/5',
+              )
+            }
+          >
+            <Repeat size={16} className="text-accent" />
+            <span className="flex-1">Today's Review</span>
+            {v2.counts.dueCount > 0 && (
+              <span className="rounded-full bg-flash/20 px-1.5 py-0.5 text-xs font-semibold text-flash">
+                {v2.counts.dueCount}
+              </span>
+            )}
           </NavLink>
         </div>
 
@@ -186,6 +208,40 @@ export function Sidebar({ open, onClose }) {
             })}
           </ul>
 
+          {/* Track 4 — Testing Fundamentals */}
+          <TrackLabel>Testing Fundamentals</TrackLabel>
+          <ul className="space-y-0.5">
+            {testingModules.map((m) => {
+              const Icon = getIcon(m.icon)
+              const done = isTestingDone(m.id)
+              return (
+                <li key={m.id}>
+                  <NavLink to={`/testing/${m.id}`} onClick={onClose} className={navLinkClass}>
+                    <Icon size={16} className="shrink-0 opacity-80" />
+                    <span className="flex-1 truncate">
+                      <span className="mr-1 font-mono text-xs text-content-faint">{m.num}</span>
+                      {m.title}
+                    </span>
+                    {done && <CheckCircle2 size={15} className="shrink-0 text-emerald-400" />}
+                  </NavLink>
+                </li>
+              )
+            })}
+            <li>
+              <NavLink to="/tdd" onClick={onClose} className={navLinkClass}>
+                {(() => { const I = getIcon('Target'); return <I size={16} className="shrink-0 opacity-80" /> })()}
+                <span className="flex-1 truncate">TDD Mode</span>
+              </NavLink>
+            </li>
+          </ul>
+
+          {/* Track 5 — Under the Hood */}
+          <TrackLabel>Under the Hood</TrackLabel>
+          <NavLink to="/under-the-hood" onClick={onClose} className={navLinkClass}>
+            {(() => { const I = getIcon('Eye'); return <I size={16} className="shrink-0 opacity-80" /> })()}
+            <span className="flex-1 truncate">Reconciliation Visualizer</span>
+          </NavLink>
+
           {/* Track 3 — Capstone */}
           <TrackLabel>Capstone</TrackLabel>
           <NavLink to="/capstone" onClick={onClose} className={navLinkClass}>
@@ -204,6 +260,9 @@ export function Sidebar({ open, onClose }) {
           </NavLink>
           <NavLink to="/progress" onClick={onClose} className={navLinkClass}>
             <Trophy size={16} /> Progress & Badges
+          </NavLink>
+          <NavLink to="/teach-back" onClick={onClose} className={navLinkClass}>
+            {(() => { const I = getIcon('BookOpenCheck'); return <I size={16} /> })()} Teach-Back Journal
           </NavLink>
         </div>
       </aside>

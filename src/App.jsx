@@ -22,6 +22,12 @@ const Flashcards = lazy(() => import('./pages/Flashcards'))
 const InterviewSimulator = lazy(() => import('./pages/InterviewSimulator'))
 const Capstone = lazy(() => import('./pages/Capstone'))
 const Readiness = lazy(() => import('./pages/Readiness'))
+// v3 — Testing, Under the Hood, Retention
+const TestingModulePage = lazy(() => import('./pages/TestingModulePage'))
+const TddMode = lazy(() => import('./pages/TddMode'))
+const UnderTheHood = lazy(() => import('./pages/UnderTheHood'))
+const Review = lazy(() => import('./pages/Review'))
+const TeachBackJournal = lazy(() => import('./pages/TeachBackJournal'))
 
 function RouteFallback() {
   return (
@@ -66,6 +72,17 @@ export default function App() {
                 <Route path="/predict-output" element={<PredictOutput />} />
                 <Route path="/flashcards" element={<Flashcards />} />
                 <Route path="/interview-simulator" element={<InterviewSimulator />} />
+
+                {/* Track 4 — Testing Fundamentals */}
+                <Route path="/testing/:slug" element={<TestingModulePage />} />
+                <Route path="/tdd" element={<TddMode />} />
+
+                {/* Track 5 — Under the Hood */}
+                <Route path="/under-the-hood" element={<UnderTheHood />} />
+
+                {/* Retention */}
+                <Route path="/review" element={<Review />} />
+                <Route path="/teach-back" element={<TeachBackJournal />} />
 
                 {/* Track 3 — Capstone + Readiness */}
                 <Route path="/capstone" element={<Capstone />} />
