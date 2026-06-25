@@ -1,9 +1,19 @@
 # ⚛️ React Playground
 
-An interactive, **learn-by-doing** web app for mastering React fundamentals —
-from your very first component all the way to advanced hooks. Instead of just
-reading theory, you edit live code, *watch* components re-render, take quick
-quizzes, and earn XP as you go.
+An interactive, **learn-by-doing** web app that takes you from your first React
+component all the way to **interview-ready**. Instead of just reading theory,
+you edit live code, *watch* components re-render, take quizzes, drill the
+decisions interviewers probe, debug broken code, and run timed mock interviews.
+
+Organized into three tracks:
+
+1. **Foundations** — 19 learn-by-doing modules (the v1 course).
+2. **Interview Mastery** — decision trainers, a challenge library, a debugging
+   gauntlet, predict-the-output, flashcards and a live interview simulator.
+3. **Capstone** — build your own portfolio site with shrinking scaffolding.
+
+…all feeding a **Confidence Dashboard** that scores your interview readiness
+across six skill axes.
 
 > Built as a real, incrementally-developed project. The app's own source code
 > doubles as a worked example of the concepts it teaches (its global state is a
@@ -35,6 +45,24 @@ quizzes, and earn XP as you go.
   **framer-motion** page transitions, and a **responsive** layout (the sidebar
   becomes a drawer on mobile).
 
+### Interview Mastery (v2.0)
+
+- **Hook Decision Engine** — 12 scenarios drilling "which hook & why", with a
+  "why NOT the alternatives" reveal, plus a visual **Decision Map**.
+- **Component Architecture Trainer** — 6 wireframes: split the UI into
+  components and decide where state lives, then compare to a model breakdown.
+- **Challenge Library** — 23 realistic live-coding exercises with reference
+  solutions and "what a strong candidate also considers" notes.
+- **Debugging Gauntlet** — the 9 classic React bugs, each a broken app to fix.
+- **Predict-the-Output** — 12 code-reading challenges, run live to confirm.
+- **Flashcards** — 16 rapid-fire concept cards with spaced repetition.
+- **Live Interview Simulator** — brief → clarify gate → plan gate → timed
+  coding → self-review → reference solution, saved to an **Interview Journal**.
+- **Confidence Dashboard** — a recharts **skill radar** across 6 axes driven by
+  real activity, with a deep-linked "focus next" nudge.
+
+See [CHANGELOG.md](./CHANGELOG.md) for the full v2.0 breakdown.
+
 ---
 
 ## 🧱 Tech Stack
@@ -49,6 +77,7 @@ quizzes, and earn XP as you go.
 | Animation          | **framer-motion**                                 |
 | Icons              | **lucide-react**                                  |
 | Global state       | **React Context + useReducer** (no external lib)  |
+| Charting           | **recharts** (v2.0, dashboard radar only)         |
 | Persistence        | **localStorage**                                  |
 
 ---
